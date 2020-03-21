@@ -1,11 +1,13 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
 const tc = require('@actions/tool-cache');
+const exec = require('@actions/exec');
 
 function get_array_from_comma_separatad_input(name) {
   return name.split(',').map(function(path){return path.trim()});
 }
 
+await exec.exec('node index.js');
 
 
 try {
@@ -32,13 +34,12 @@ try {
   const cached_pyenv_path = await tc.cacheDir(pyenv_root_path, 'pyenv', pyenv_version);
   console.log(`pyenv local ${default_version}...`);
 
-  // Safely determine the location of pyenv shims
-  const pyenv_shims_path = `${cached_pyenv_path}/shims`
-
-  // Prepend shims location to PATH
-  core.addPath(pyenv_shims_path);
+  // Setup pyenv in build environment, from this point on pyenv is available!
+  core.addPath(`${cached_pyenv_path}/bin`);
   core.exportVariable('PYENV_SHELL', process.env.SHELL);
-  core.setOutput("pyenv_root", cached_pyenv_path);
+  core.exportVariable('PYENV_ROTO', cached_pyenv_path);
+
+  // pre-install all pyenv versions
 
   const payload = JSON.stringify(github.context.payload, undefined, 2);
   console.log(`Event payload: ${payload}`);

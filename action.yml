@@ -3,7 +3,7 @@ author: 'Gabriel Falcão'
 description: 'Enables use of pyenv within build'
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'dist/index.js'
 
 inputs:
   command:
