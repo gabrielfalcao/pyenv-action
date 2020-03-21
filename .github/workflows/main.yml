@@ -1,0 +1,29 @@
+on: [push]
+
+jobs:
+  hello_world_job:
+    runs-on: ubuntu-latest
+    name: A job to say hello
+    steps:
+    - name: Enable pyenv in build
+      id: pyenv
+      uses: gabrielfalcao/pyenv-action@master
+      with:
+        default: 3.7.3
+        commands:  # execute these two commands in each python version listed
+          - pip install -U pip
+          - pip install -U setuptools
+
+        versions:
+          - 3.6.5
+          - 3.7.3
+
+    # Use the output from the `hello` step
+    - name: List python versions
+      run: pyenv versions
+
+    - name: Verify python 3.6.5 installation
+      run: pyenv local 3.6.5 && python --version
+
+    - name: Verify python 3.6.5 installation
+      run: pyenv local 3.6.5 && python --version
