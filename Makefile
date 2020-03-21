@@ -1,11 +1,27 @@
-watch: prettier
+.PHONY: default watch release build format lint test docker-test
+
+default: build release
+
+watch: format
 	npm run watch
 
-dist/index.js: prettier
+dist/index.js: format
+	npm run build
+	npm run release
+
+release: dist/index.js
+
+build: format
 	npm run build
 
-prettier:
+format:
 	npm run format
+
+lint:
+	npm run format-check
+
+test:
+	npm run test
 
 docker-test:
 	docker build -t gabrielfalcao/pyenv-action .
