@@ -22,21 +22,19 @@ To start checking all pull requests, add the following file at
        - name: Bento
          uses: gabrielfalcao/pyenv-action@v1
          with:
-           pip_requirements:
-           - "pip>=20.0.2"
-           - "setuptools>=45.0.0"
-           - "-r development.txt"
-
+           default: 3.7.3
            commands:
-             - nosetests --cover-erase tests/unit
-             - nosetests tests/functional
+             - pip install -U pip
+             - pip install -U setuptools
 
            versions:
-             - 3.6.4
              - 3.6.5
              - 3.7.3
 
-Contributing
-------------
+       - name: Run tests on python 3.6.5
+         run: |
+           pyenv local 3.6.5 && make tests
 
-See `CONTRIBUTING.md <CONTRIBUTING.md>`__
+       - name: Run tests on python 3.7.3
+         run: |
+           pyenv local 3.6.5 && make tests

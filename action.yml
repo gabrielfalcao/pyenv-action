@@ -9,10 +9,16 @@ inputs:
     description: |
       what command to execute for each python version
     required: true
+  default:
+    description: |
+      what is the default python version, automatically installs this
+      version with pyenv even if not listed in the "versions" input.
+    required: true
   versions:
     description: |
-      A list of python versions to install with pyenv
-    required: true
+      A list of python versions to install with pyenv. Required at
+      least one, unless the "default" input is set
+    required: false
 branding:
   icon: 'cpu'
   color: 'blue'
