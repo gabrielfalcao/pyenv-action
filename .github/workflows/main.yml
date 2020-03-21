@@ -10,13 +10,11 @@ jobs:
       uses: gabrielfalcao/pyenv-action@master
       with:
         default: 3.7.3
-        commands:  # execute these two commands in each python version listed
-          - pip install -U pip
-          - pip install -U setuptools
+        command: |
+          pip install -U pip
+          pip install -U setuptools
 
-        versions:
-          - 3.6.5
-          - 3.7.3
+        versions: 3.6.5,3.7.2
 
     # Use the output from the `hello` step
     - name: List python versions

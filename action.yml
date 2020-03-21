@@ -7,7 +7,7 @@ runs:
 inputs:
   command:
     description: |
-      what command to execute for each python version
+      what command to execute for each python version, runs within the default shell
     required: true
   default:
     description: |
@@ -16,8 +16,10 @@ inputs:
     required: true
   versions:
     description: |
-      A list of python versions to install with pyenv. Required at
-      least one, unless the "default" input is set
+      A list of python versions to install with pyenv separated by
+      comma. (e.g.: "3.6.5,3.7.3, 3.2.6")
+
+      Required at least one, unless the "default" input is set.
     required: false
 
 outputs:

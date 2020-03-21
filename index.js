@@ -2,12 +2,8 @@ const core = require("@actions/core");
 const github = require("@actions/github");
 const tc = require('@actions/tool-cache');
 
-function get_array_input(name) {
-  result = core.getInput(name);
-  if (! result instanceof Array) {
-    throw new Error(`'input "${name}" is not an array`);
-  }
-  return result;
+function get_array_from_comma_separatad_input(name) {
+  return name.split(',').map(function(path){return path.trim()});
 }
 
 
@@ -16,8 +12,8 @@ try {
   // Read inputs
   const default_version = core.getInput("default");
 
-  const commands = get_array_input("commands");
-  const versions = get_array_input("versions");
+  const command = get_array_input("command");
+  const versions = get_array_from_comma_separatad_input("versions");
 
   // Prepare contextual variables and urls
   const pyenv_version = 'v1.2.17'
