@@ -1,0 +1,24 @@
+{
+  "name": "pyenv-action",
+  "version": "1.0.0",
+  "description": "pyenv-action ============",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielfalcao/pyenv-action.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabrielfalcao/pyenv-action/issues"
+  },
+  "homepage": "https://github.com/gabrielfalcao/pyenv-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.3",
+    "@actions/github": "^2.1.1"
+  }
+}
