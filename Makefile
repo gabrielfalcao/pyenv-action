@@ -1,6 +1,6 @@
 .PHONY: default watch release build format lint test docker-test
 
-default: build release
+default: release
 
 watch: format
 	npm run watch
@@ -9,7 +9,7 @@ dist/index.js: format
 	npm run build
 	npm run release
 
-release: dist/index.js
+release: build | dist/index.js
 
 build: format
 	npm run build
@@ -18,7 +18,7 @@ format:
 	npm run format
 
 lint:
-	npm run format-check
+	npm run lint
 
 test:
 	npm run test

@@ -10,7 +10,8 @@
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
     "release": "ncc build src/pyenv-action.ts && git add -f dist/",
-    "test": "jest"
+    "test": "tsc --noEmit && jest",
+    "lint": "eslint . --ext .ts"
   },
   "repository": {
     "type": "git",
@@ -35,9 +36,16 @@
   },
   "devDependencies": {
     "@types/jest": "^24.9.1",
+    "@types/js-yaml": "^3.12.1",
+    "@types/nock": "^11.1.0",
     "@types/node": "^12.12.29",
     "@types/semver": "^6.2.1",
+    "@typescript-eslint/eslint-plugin": "^2.2.0",
+    "@typescript-eslint/parser": "^2.2.0",
     "@zeit/ncc": "^0.20.5",
+    "eslint": "^6.3.0",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-prettier": "^3.1.0",
     "husky": "^3.1.0",
     "jest": "^24.9.0",
     "jest-circus": "^24.9.0",
