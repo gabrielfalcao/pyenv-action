@@ -22,16 +22,16 @@ async function run() {
     // Prepare contextual variables and urls
     const pyenv_version = 'v1.2.17';
     const pyenv_root_name = `.pyenv@${pyenv_version}`;
-    const pyenv_tarball_url = `https://github.com/pyenv/pyenv/archive/${pyenv_version}.tar.gz`;
+    const pyenv_zip_archive_url = `https://github.com/pyenv/pyenv/archive/${pyenv_version}.zip`;
 
-    // Download pyenv tarball IO#1
+    // Download pyenv zip_archive IO#1
     console.log(`Downloading pyenv ${pyenv_version}...`);
-    const pyenv_tarball_path = await tc.downloadTool(pyenv_tarball_url);
+    const pyenv_zip_archive_path = await tc.downloadTool(pyenv_zip_archive_url);
 
-    // Extract tarball
+    // Extract zip_archive
     console.log(`Installing pyenv ${pyenv_version}...`);
     const pyenv_root_path = await tc.extractZip(
-      pyenv_tarball_path,
+      pyenv_zip_archive_path,
       pyenv_root_name
     );
 
