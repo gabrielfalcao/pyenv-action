@@ -1,0 +1,18 @@
+name: 'Pyenv Build'
+author: 'Gabriel Falcão'
+description: 'Enables use of pyenv within build'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+inputs:
+  command:
+    description: |
+      what command to execute for each python version
+    required: true
+  versions:
+    description: |
+      A list of python versions to install with pyenv
+    required: true
+branding:
+  icon: 'cpu'
+  color: 'blue'
