@@ -19,6 +19,19 @@ inputs:
       A list of python versions to install with pyenv. Required at
       least one, unless the "default" input is set
     required: false
+  pyenv_root_name:
+    default: .pyenv
+    description: |
+      name of pyenv root folder, relative to the $HOME of the build runtime
+
+outputs:
+  pyenv_root:
+    description: |
+      the full filesystem path from this action
 branding:
   icon: 'cpu'
   color: 'blue'
+
+runs:
+  using: 'node12'
+  main: 'index.js'
