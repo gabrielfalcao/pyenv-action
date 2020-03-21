@@ -3,7 +3,7 @@ on: [push]
 jobs:
   hello_world_job:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: Self-test pyenv-action
     steps:
     - name: Enable pyenv in build
       id: pyenv

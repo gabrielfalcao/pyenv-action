@@ -2,8 +2,9 @@ name: 'Pyenv Build'
 author: 'Gabriel Falcão'
 description: 'Enables use of pyenv within build'
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: 'node12'
+  main: 'index.js'
+
 inputs:
   command:
     description: |
@@ -29,7 +30,3 @@ outputs:
 branding:
   icon: 'cpu'
   color: 'blue'
-
-runs:
-  using: 'node12'
-  main: 'index.js'
