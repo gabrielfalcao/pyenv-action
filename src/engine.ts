@@ -79,7 +79,11 @@ export class PyEnvInstaller {
           accept(archive_path);
         })
         .catch(err => {
-          reject(err);
+          reject(
+            new Error(
+              `Cannot download archive for pyenv "${this.pyenv_version}": ${err.message}`
+            )
+          );
         });
     });
   }
