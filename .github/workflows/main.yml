@@ -1,8 +1,26 @@
-name: Action self-test
+name: pyenv-action tests
 on: [push, pull_request]
 
 jobs:
-  hello_world_job:
+  jest:
+    name: functional tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Set Node.js 12.x
+      uses: actions/setup-node@master
+      with:
+        node-version: 12.x
+
+    - name: install nodejs dependencies
+      run: npm install
+
+    - name: run jest tests
+      run: npm test
+
+  self_test:
     runs-on: ubuntu-latest
     name: pyenv-action self-test
     steps:
