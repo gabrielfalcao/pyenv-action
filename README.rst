@@ -1,9 +1,7 @@
 pyenv-action
 ============
 
-
-
-.. image:: https://img.shields.io/github/workflow/status/gabrielfalcao/pyenv-action/main
+.. image:: https://github.com/gabrielfalcao/pyenv-action/workflows/Continuous%20Integration/badge.svg
    :target: https://github.com/gabrielfalcao/pyenv-action/actions
 
 .. image:: https://img.shields.io/github/license/gabrielfalcao/pyenv-action?label=Github%20License
