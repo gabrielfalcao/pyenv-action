@@ -22,7 +22,7 @@ jobs:
 
   master_self_test:
     runs-on: ubuntu-latest
-    name: master self-test
+    name: integration tests
     steps:
     - name: Enable pyenv in build
       id: pyenv
