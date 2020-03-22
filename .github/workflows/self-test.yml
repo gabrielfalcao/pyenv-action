@@ -8,7 +8,7 @@ jobs:
     steps:
     - name: Enable pyenv in build
       id: pyenv
-      uses: gabrielfalcao/pyenv-action@${{ github.sha }}
+      uses: "gabrielfalcao/pyenv-action@${{ github.sha }}"
       with:
         default: 3.7.3
         command: |
