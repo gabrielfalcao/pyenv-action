@@ -166,7 +166,7 @@ export class EnvironmentManager {
   async run_pyenv_install(version: string): Promise<string> {
     return new Promise<string>((accept, reject) => {
       const cached_python = tc.find(
-        'pyenv-python-${version}',
+        `pyenv-python-${version}`,
         this.pyenv_version
       );
       if (fs.existsSync(cached_python)) {
@@ -208,6 +208,32 @@ export class EnvironmentManager {
       });
     });
   }
+  async set_default_version(): Promise<string> {
+    return new Promise<string>((accept, reject) => {
+      const version = this.context.inputs.default_version;
+      const cached_python = tc.find(
+        `pyenv-python-${version}`,
+        this.pyenv_version
+      );
+      if (!fs.existsSync(cached_python)) {
+        return reject(
+          new Error(`python ${version} was not installed via pyenv`)
+        );
+      }
+
+      exec
+        .exec(`pyenv local ${this.context.inputs.default_version}`)
+        .then(() => {
+          console.log(`Sucessfully installed python ${version}`);
+          accept(cached_python);
+        })
+        .catch(error => {
+          console.error(`Failed to set python ${version}: {error.message}`);
+          reject(error);
+        });
+    });
+  }
+
   debug() {
     const payload = JSON.stringify(github.context.payload, undefined, 2);
     console.log(`Event payload: ${payload}`);

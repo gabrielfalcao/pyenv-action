@@ -9221,7 +9221,7 @@ class PyEnvInstaller {
     constructor(pyenv_version) {
         this.pyenv_version = pyenv_version;
         this.archive_path = `/tmp/pyenv-${this.pyenv_version}-inflated`;
-        this.deflated_location = tc.find('pyenv', this.pyenv_version);
+        this.deflated_location = tc.find('pyenv_root', this.pyenv_version);
     }
     get archive_url() {
         return `https://github.com/pyenv/pyenv/archive/v${this.pyenv_version}.zip`; // note the deliberate "v" prefix of pyenv version
@@ -9253,14 +9253,14 @@ class PyEnvInstaller {
                 if (!fs.existsSync(this.archive_path)) {
                     return accept(this.archive_path);
                 }
-                tc.extractZip(archive_path, tc.find('pyenv', this.pyenv_version))
+                tc.extractZip(archive_path, tc.find('pyenv_archive', this.pyenv_version))
                     .then(inflation_path => {
                     console.log(`Extracted ${archive_path} to ${inflation_path}.`);
                     const deflated_location = path.join(inflation_path, `pyenv-${this.pyenv_version}`); // TODO: find the path with glob matching the version
                     if (!fs.existsSync(deflated_location)) {
                         return reject(new Error(`failed to deflate ${archive_path}: ${deflated_location} does not exist`));
                     }
-                    tc.cacheDir(deflated_location, 'pyenv', this.pyenv_version)
+                    tc.cacheDir(deflated_location, 'pyenv_root', this.pyenv_version)
                         .then(pyenv_root => {
                         core.setOutput('pyenv_root', pyenv_root);
                         accept(pyenv_root);
@@ -9282,6 +9282,7 @@ class EnvironmentManager {
         const { context, pyenv_root } = params;
         this.context = context;
         this.inputs = context.inputs;
+        this.pyenv_version = context.pyenv_version;
         this.pyenv_root = pyenv_root;
         this.pyenv_bin_path = `${this.pyenv_root}/bin`;
         this.pyenv_shims_path = `${this.pyenv_root}/shims`;
@@ -9302,11 +9303,17 @@ class EnvironmentManager {
     run_pyenv_install(version) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((accept, reject) => {
+                const cached_python = tc.find(`pyenv-python-${version}`, this.pyenv_version);
+                if (fs.existsSync(cached_python)) {
+                    return accept(cached_python);
+                }
                 exec
                     .exec(`pyenv install ${version}`)
                     .then(() => {
                     console.log(`Sucessfully installed python ${version}`);
-                    accept(version);
+                    tc.cacheDir(`${this.pyenv_root}/versions/${version}`, `pyenv-python-${version}`, this.pyenv_version).then(cached_path => {
+                        accept(cached_path);
+                    });
                 })
                     .catch(error => {
                     console.error(`Failed to install python ${version}`);
@@ -9330,6 +9337,27 @@ class EnvironmentManager {
                         .catch(error => {
                         reject(error);
                     });
+                });
+            });
+        });
+    }
+    set_default_version() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((accept, reject) => {
+                const version = this.context.inputs.default_version;
+                const cached_python = tc.find(`pyenv-python-${version}`, this.pyenv_version);
+                if (!fs.existsSync(cached_python)) {
+                    return reject(new Error(`python ${version} was not installed via pyenv`));
+                }
+                exec
+                    .exec(`pyenv local ${this.context.inputs.default_version}`)
+                    .then(() => {
+                    console.log(`Sucessfully installed python ${version}`);
+                    accept(cached_python);
+                })
+                    .catch(error => {
+                    console.error(`Failed to set python ${version}: {error.message}`);
+                    reject(error);
                 });
             });
         });
@@ -28901,6 +28929,7 @@ function run() {
             environment.setup();
             // pre-install all pyenv versions
             yield environment.install_versions();
+            yield environment.set_default_version();
         }
         catch (error) {
             core.setFailed(error.message);
