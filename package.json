@@ -35,7 +35,7 @@
     "semver": "6.3.0"
   },
   "devDependencies": {
-    "@types/jest": "24.9.1",
+    "@types/jest": "25.1.4",
     "@types/js-yaml": "3.12.2",
     "@types/nock": "11.1.0",
     "@types/node": "12.12.30",
