@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:18.10
 
 ENV pyenv_version v1.2.17
 RUN apt-get update && apt-get install -y \
