@@ -57,7 +57,7 @@
   "husky": {
     "skipCI": true,
     "hooks": {
-      "pre-commit": "rm dist/index.js && make dist/index.js"
+      "pre-commit": "echo 'rm dist/index.js && make dist/index.js'"
     }
   }
 }
