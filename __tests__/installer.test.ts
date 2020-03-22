@@ -59,7 +59,11 @@ describe('PyEnvInstaller', () => {
     const installer = new engine.PyEnvInstaller(defaults.PYENV_VERSION);
     const archive_path = await installer.downloadArchive();
     const pyenv_root = await installer.installFromArchive(archive_path);
+    expect(fs.existsSync(pyenv_root)).toBeTruthy();
+
     const pyenv_bin = path.join(pyenv_root, 'bin', 'pyenv');
+    expect(fs.existsSync(pyenv_bin)).toBeTruthy();
+
     const stat = fs.statSync(pyenv_bin);
     expect(stat.isFile()).toBeTruthy();
   });
