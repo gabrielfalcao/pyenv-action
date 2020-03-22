@@ -1,4 +1,5 @@
-on: [push]
+name: Action self-test
+on: [push, pull_request]
 
 jobs:
   hello_world_job:
@@ -7,7 +8,7 @@ jobs:
     steps:
     - name: Enable pyenv in build
       id: pyenv
-      uses: gabrielfalcao/pyenv-action@master
+      uses: gabrielfalcao/pyenv-action@${{ github.sha }}
       with:
         default: 3.7.3
         command: |
