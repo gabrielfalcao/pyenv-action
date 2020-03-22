@@ -28813,6 +28813,8 @@ function run() {
             const installer = new engine.PyEnvInstaller(context.pyenv_version);
             const archive_path = yield installer.downloadArchive();
             const pyenv_root = yield installer.installFromArchive(archive_path);
+            console.log(`archive_path ${archive_path}`);
+            console.log(`pyenv_root ${pyenv_root}`);
             // Setup build environment to support pyenv
             const build_environment = new engine.EnvironmentManager({
                 context,

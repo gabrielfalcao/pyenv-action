@@ -9,7 +9,7 @@ dist/index.js: format
 	npm run build
 	npm run release
 
-release: build | dist/index.js
+release: dist/index.js
 
 build: format
 	npm run build
