@@ -24,7 +24,7 @@ async function run() {
     console.log(`pyenv_root ${pyenv_root}`);
 
     // Setup build environment to support pyenv
-    const build_environment = new engine.EnvironmentManager({
+    const environment = new engine.EnvironmentManager({
       context,
       pyenv_root
     });
@@ -32,10 +32,10 @@ async function run() {
     // enable the command pyenv install by setting PYENV_ROOT environment variable.
 
     // At this point pyenv is ready to be used, next we pre-install the python versions declared
-    build_environment.setup();
+    environment.setup();
 
     // pre-install all pyenv versions
-    build_environment.debug();
+    await environment.install_versions();
   } catch (error) {
     core.setFailed(error.message);
   }

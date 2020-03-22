@@ -127,13 +127,14 @@ export class PyEnvInstaller {
 
 export class EnvironmentManager {
   private context: BuildContext;
-
+  private inputs: ParsedInputs;
   readonly pyenv_root: string;
   readonly pyenv_binpath: string;
 
   constructor(params: EnvironmentManagerParams) {
     const {context, pyenv_root} = params;
     this.context = context;
+    this.inputs = context.inputs;
     this.pyenv_root = pyenv_root;
     this.pyenv_binpath = `${this.pyenv_root}/bin`;
 
@@ -157,6 +158,37 @@ export class EnvironmentManager {
     console.log(`Patched PATH with "${this.pyenv_binpath}"`);
   }
 
+  async run_pyenv_install(version: string): Promise<string> {
+    return new Promise<string>((accept, reject) => {
+      exec
+        .exec(`pyenv install ${version}`)
+        .then(() => {
+          console.log(`Sucessfully installed python ${version}`);
+          accept(version);
+        })
+        .catch(error => {
+          console.error(`Failed to install python ${version}`);
+          reject(error);
+        });
+    });
+  }
+  async install_versions(): Promise<Array<string>> {
+    return new Promise<Array<string>>((accept, reject) => {
+      const installed: Array<string> = [];
+      this.context.inputs.versions.forEach(version => {
+        this.run_pyenv_install(version)
+          .then(() => {
+            installed.push(version);
+            if (installed.length == this.inputs.versions.length) {
+              accept(installed);
+            }
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    });
+  }
   debug() {
     const payload = JSON.stringify(github.context.payload, undefined, 2);
     console.log(`Event payload: ${payload}`);
