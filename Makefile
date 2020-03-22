@@ -7,6 +7,7 @@ watch: format
 
 dist/index.js: format
 	npm run build
+	npm run test
 	npm run release
 
 release: dist/index.js
@@ -21,7 +22,7 @@ lint:
 	npm run lint
 
 test:
-	npm run test
+	npm run test-watch
 
 docker-test:
 	docker build -t gabrielfalcao/pyenv-action .
