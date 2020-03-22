@@ -129,23 +129,25 @@ export class EnvironmentManager {
   private context: BuildContext;
   private inputs: ParsedInputs;
   readonly pyenv_root: string;
-  readonly pyenv_binpath: string;
+  readonly pyenv_bin_path: string;
+  readonly pyenv_shims_path: string;
 
   constructor(params: EnvironmentManagerParams) {
     const {context, pyenv_root} = params;
     this.context = context;
     this.inputs = context.inputs;
     this.pyenv_root = pyenv_root;
-    this.pyenv_binpath = `${this.pyenv_root}/bin`;
+    this.pyenv_bin_path = `${this.pyenv_root}/bin`;
+    this.pyenv_shims_path = `${this.pyenv_root}/shims`;
 
     if (!fs.existsSync(this.pyenv_root)) {
       throw new Error(
         `${this.pyenv_root} does not exist, make sure to install pyenv before setting up the environment`
       );
     }
-    if (!fs.existsSync(this.pyenv_binpath)) {
+    if (!fs.existsSync(this.pyenv_bin_path)) {
       throw new Error(
-        `${this.pyenv_binpath} does not exist, make sure to install pyenv before setting up the environment`
+        `${this.pyenv_bin_path} does not exist, make sure to install pyenv before setting up the environment`
       );
     }
   }
@@ -154,8 +156,9 @@ export class EnvironmentManager {
     core.exportVariable('PYENV_ROOT', this.pyenv_root);
     console.log(`export PYENV_ROOT="${this.pyenv_root}"`);
 
-    core.addPath(this.pyenv_binpath);
-    console.log(`Patched PATH with "${this.pyenv_binpath}"`);
+    core.addPath(this.pyenv_bin_path);
+    core.addPath(this.pyenv_shims_path);
+    console.log(`Patched PATH with "${this.pyenv_bin_path}"`);
   }
 
   async run_pyenv_install(version: string): Promise<string> {
