@@ -50,8 +50,9 @@ interface EnvironmentManagerParams {
 
 export class PyEnvInstaller {
   readonly pyenv_version: string;
-  private archive_path: string | null;
-  private archive_cache: string | null;
+
+  private archive_path: string;
+  private deflated_location: string;
 
   get archive_url(): string {
     return `https://github.com/pyenv/pyenv/archive/v${this.pyenv_version}.zip`; // note the deliberate "v" prefix of pyenv version
@@ -59,41 +60,62 @@ export class PyEnvInstaller {
 
   constructor(pyenv_version: string) {
     this.pyenv_version = pyenv_version;
-    this.archive_path = null;
-    this.archive_cache = null;
+    this.archive_path = `/tmp/pyenv-${this.pyenv_version}-inflated`;
+    this.deflated_location = tc.find('pyenv', this.pyenv_version);
+  }
+
+  get pyenv_root(): string {
+    return this.deflated_location;
   }
 
   async downloadArchive(): Promise<string> {
-    return new Promise<string>(done => {
+    return new Promise<string>((accept, reject) => {
       console.log(`downloading ${this.archive_url}`);
-      tc.downloadTool(this.archive_url).then(archive_path => {
-        this.archive_path = archive_path;
-
-        console.log(`saved ${archive_path}`);
-        tc.cacheFile(
-          path.dirname(archive_path),
-          path.basename(archive_path),
-          `v${this.pyenv_version}.zip`,
-          this.pyenv_version
-        ).then(cached_path => {
-          this.archive_cache = cached_path;
-          done(cached_path);
+      tc.downloadTool(this.archive_url)
+        .then(archive_path => {
+          if (!fs.existsSync(archive_path)) {
+            return reject(new Error(`${archive_path} does not exist`));
+          }
+          accept(archive_path);
+        })
+        .catch(err => {
+          reject(err);
         });
-      });
     });
   }
 
   async installFromArchive(archive_path: string): Promise<string> {
-    return new Promise<string>(done => {
-      tc.extractZip(archive_path, 'pyenv-inflated').then(inflation_path => {
-        console.log(`Extracted ${archive_path} to ${inflation_path}.`);
-        tc.cacheDir(inflation_path, 'pyenv', this.pyenv_version).then(
-          pyenv_root => {
-            console.log(`Cached ${inflation_path} in ${pyenv_root}.`);
-            done(pyenv_root);
+    return new Promise<string>((accept, reject) => {
+      if (!fs.existsSync(this.archive_path)) {
+        return accept(this.archive_path);
+      }
+      tc.extractZip(archive_path, tc.find('pyenv', this.pyenv_version))
+        .then(inflation_path => {
+          console.log(`Extracted ${archive_path} to ${inflation_path}.`);
+          const deflated_location = path.join(
+            inflation_path,
+            `pyenv-${this.pyenv_version}`
+          ); // TODO: find the path with glob matching the version
+          if (!fs.existsSync(deflated_location)) {
+            return reject(
+              new Error(
+                `failed to deflate ${archive_path}: ${deflated_location} does not exist`
+              )
+            );
           }
-        );
-      });
+
+          tc.cacheDir(deflated_location, 'pyenv', this.pyenv_version)
+            .then(pyenv_root => {
+              core.setOutput('pyenv_root', pyenv_root);
+              accept(pyenv_root);
+            })
+            .catch(error => {
+              reject(error);
+            });
+        })
+        .catch(err => {
+          reject(err);
+        });
     });
   }
 }

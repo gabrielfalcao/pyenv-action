@@ -101,3 +101,5 @@ node_modules/@zeit/ncc/dist/ncc/loaders/shebang-loader.js.cache
 node_modules/@zeit/ncc/dist/ncc/loaders/ts-loader.js.cache
 node_modules/@zeit/ncc/dist/ncc/cli.js.cache
 node_modules/@zeit/ncc/dist/ncc/index.js.cache
+
+.test-artifacts

@@ -4,13 +4,14 @@ import * as tc from '@actions/tool-cache';
 import * as exec from '@actions/exec';
 
 import * as engine from './engine';
+import * as defaults from './defaults';
 
 async function run() {
   try {
     // Parse inputs and prepare context for installer
 
     const context = new engine.BuildContext({
-      pyenv_version: '1.2.17'
+      pyenv_version: defaults.PYENV_VERSION
     });
 
     // Download and Install pyenv
