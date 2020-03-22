@@ -3618,6 +3618,29 @@ function paginatePlugin(octokit) {
 
 /***/ }),
 
+/***/ 163:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+function splitcommas(name) {
+    return name.split(',').map(function (path) {
+        return path.trim();
+    });
+}
+exports.splitcommas = splitcommas;
+function __only_unique__(value, index, self) {
+    return self.indexOf(value) === index;
+}
+function unique(values) {
+    return values.filter(__only_unique__);
+}
+exports.unique = unique;
+
+
+/***/ }),
+
 /***/ 168:
 /***/ (function(module) {
 
@@ -9126,6 +9149,124 @@ module.exports = require("path");
 /***/ (function(module) {
 
 module.exports = require("net");
+
+/***/ }),
+
+/***/ 643:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const path = __importStar(__webpack_require__(622));
+const fs = __importStar(__webpack_require__(747));
+const core = __importStar(__webpack_require__(470));
+const github = __importStar(__webpack_require__(469));
+const tc = __importStar(__webpack_require__(533));
+const utils = __importStar(__webpack_require__(163));
+class ParsedInputs {
+    constructor() {
+        this.default_version = core.getInput('default');
+        this.command = core.getInput('command');
+        this.explicit_versions = utils.splitcommas(core.getInput('versions'));
+    }
+    get versions() {
+        const values = utils.unique(this.explicit_versions);
+        values.push(this.default_version);
+        values.sort();
+        return values;
+    }
+}
+exports.ParsedInputs = ParsedInputs;
+class BuildContext {
+    constructor(params) {
+        const { pyenv_version } = params;
+        this.pyenv_version = pyenv_version;
+        this.inputs = new ParsedInputs();
+    }
+}
+exports.BuildContext = BuildContext;
+class PyEnvInstaller {
+    constructor(pyenv_version) {
+        this.pyenv_version = pyenv_version;
+        this.archive_path = null;
+        this.archive_cache = null;
+    }
+    get archive_url() {
+        return `https://github.com/pyenv/pyenv/archive/v${this.pyenv_version}.zip`; // note the deliberate "v" prefix of pyenv version
+    }
+    downloadArchive() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise(done => {
+                console.log(`downloading ${this.archive_url}`);
+                tc.downloadTool(this.archive_url).then(archive_path => {
+                    this.archive_path = archive_path;
+                    console.log(`saved ${archive_path}`);
+                    tc.cacheFile(path.dirname(archive_path), path.basename(archive_path), `v${this.pyenv_version}.zip`, this.pyenv_version).then(cached_path => {
+                        this.archive_cache = cached_path;
+                        done(cached_path);
+                    });
+                });
+            });
+        });
+    }
+    installFromArchive(archive_path) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise(done => {
+                tc.extractZip(archive_path, 'pyenv-inflated').then(inflation_path => {
+                    console.log(`Extracted ${archive_path} to ${inflation_path}.`);
+                    tc.cacheDir(inflation_path, 'pyenv', this.pyenv_version).then(pyenv_root => {
+                        console.log(`Cached ${inflation_path} in ${pyenv_root}.`);
+                        done(pyenv_root);
+                    });
+                });
+            });
+        });
+    }
+}
+exports.PyEnvInstaller = PyEnvInstaller;
+class EnvironmentManager {
+    constructor(params) {
+        const { context, pyenv_root } = params;
+        this.context = context;
+        this.pyenv_root = pyenv_root;
+        this.pyenv_binpath = `${this.pyenv_root}/bin`;
+        if (!fs.existsSync(this.pyenv_root)) {
+            throw new Error(`${this.pyenv_root} does not exist, make sure to install pyenv before setting up the environment`);
+        }
+        if (!fs.existsSync(this.pyenv_binpath)) {
+            throw new Error(`${this.pyenv_binpath} does not exist, make sure to install pyenv before setting up the environment`);
+        }
+    }
+    setup() {
+        core.exportVariable('PYENV_ROOT', this.pyenv_root);
+        console.log(`export PYENV_ROOT="${this.pyenv_root}"`);
+        core.addPath(this.pyenv_binpath);
+        console.log(`Patched PATH with "${this.pyenv_binpath}"`);
+    }
+    debug() {
+        const payload = JSON.stringify(github.context.payload, undefined, 2);
+        console.log(`Event payload: ${payload}`);
+    }
+}
+exports.EnvironmentManager = EnvironmentManager;
+
 
 /***/ }),
 
@@ -28660,39 +28801,29 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
-const github = __importStar(__webpack_require__(469));
-const tc = __importStar(__webpack_require__(533));
-function get_array_from_comma_separatad_input(name) {
-    return name.split(',').map(function (path) {
-        return path.trim();
-    });
-}
+const engine = __importStar(__webpack_require__(643));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            // Read inputs
-            const default_version = core.getInput('default');
-            const command = core.getInput('command');
-            const versions = get_array_from_comma_separatad_input(core.getInput('versions'));
-            // Prepare contextual variables and urls
-            const pyenv_version = 'v1.2.17';
-            const pyenv_root_name = `.pyenv@${pyenv_version}`;
-            const pyenv_zip_archive_url = `https://github.com/pyenv/pyenv/archive/${pyenv_version}.zip`;
-            // Download pyenv zip_archive IO#1
-            console.log(`Downloading pyenv ${pyenv_version}...`);
-            const pyenv_zip_archive_path = yield tc.downloadTool(pyenv_zip_archive_url);
-            // Extract zip_archive
-            console.log(`Installing pyenv ${pyenv_version}...`);
-            const pyenv_root_path = yield tc.extractZip(pyenv_zip_archive_path, pyenv_root_name);
-            // Cache for future usage
-            const cached_pyenv_path = yield tc.cacheDir(pyenv_root_path, 'pyenv', pyenv_version);
-            console.log(`pyenv local ${default_version}...`);
-            // Setup pyenv in build environment, from this point on pyenv is available!
-            core.addPath(`${cached_pyenv_path}/bin`);
-            core.exportVariable('PYENV_ROOT', cached_pyenv_path);
+            // Parse inputs and prepare context for installer
+            const context = new engine.BuildContext({
+                pyenv_version: '1.2.17'
+            });
+            // Download and Install pyenv
+            const installer = new engine.PyEnvInstaller(context.pyenv_version);
+            const archive_path = yield installer.downloadArchive();
+            const pyenv_root = yield installer.installFromArchive(archive_path);
+            // Setup build environment to support pyenv
+            const build_environment = new engine.EnvironmentManager({
+                context,
+                pyenv_root
+            });
+            // this call makes the pyenv binary available to the PATH and
+            // enable the command pyenv install by setting PYENV_ROOT environment variable.
+            // At this point pyenv is ready to be used, next we pre-install the python versions declared
+            build_environment.setup();
             // pre-install all pyenv versions
-            const payload = JSON.stringify(github.context.payload, undefined, 2);
-            console.log(`Event payload: ${payload}`);
+            build_environment.debug();
         }
         catch (error) {
             core.setFailed(error.message);
