@@ -165,10 +165,7 @@ export class EnvironmentManager {
 
   async run_pyenv_install(version: string): Promise<string> {
     return new Promise<string>((accept, reject) => {
-      const cached_python = tc.find(
-        `pyenv-python-${version}`,
-        this.pyenv_version
-      );
+      const cached_python = tc.find(`pyenv-python`, version);
       if (fs.existsSync(cached_python)) {
         return accept(cached_python);
       }
@@ -179,8 +176,8 @@ export class EnvironmentManager {
           console.log(`Sucessfully installed python ${version}`);
           tc.cacheDir(
             `${this.pyenv_root}/versions/${version}`,
-            `pyenv-python-${version}`,
-            this.pyenv_version
+            `pyenv-python`,
+            version
           ).then(cached_path => {
             accept(cached_path);
           });
@@ -211,10 +208,7 @@ export class EnvironmentManager {
   async set_default_version(): Promise<string> {
     return new Promise<string>((accept, reject) => {
       const version = this.context.inputs.default_version;
-      const cached_python = tc.find(
-        `pyenv-python-${version}`,
-        this.pyenv_version
-      );
+      const cached_python = tc.find(`pyenv-python`, version);
       if (!fs.existsSync(cached_python)) {
         return reject(
           new Error(`python ${version} was not installed via pyenv`)
