@@ -61,7 +61,7 @@ export class PyEnvInstaller {
   constructor(pyenv_version: string) {
     this.pyenv_version = pyenv_version;
     this.archive_path = `/tmp/pyenv-${this.pyenv_version}-inflated`;
-    this.deflated_location = tc.find('pyenv', this.pyenv_version);
+    this.deflated_location = tc.find('pyenv_root', this.pyenv_version);
   }
 
   get pyenv_root(): string {
@@ -94,7 +94,7 @@ export class PyEnvInstaller {
       if (!fs.existsSync(this.archive_path)) {
         return accept(this.archive_path);
       }
-      tc.extractZip(archive_path, tc.find('pyenv', this.pyenv_version))
+      tc.extractZip(archive_path, tc.find('pyenv_archive', this.pyenv_version))
         .then(inflation_path => {
           console.log(`Extracted ${archive_path} to ${inflation_path}.`);
           const deflated_location = path.join(
@@ -109,7 +109,7 @@ export class PyEnvInstaller {
             );
           }
 
-          tc.cacheDir(deflated_location, 'pyenv', this.pyenv_version)
+          tc.cacheDir(deflated_location, 'pyenv_root', this.pyenv_version)
             .then(pyenv_root => {
               core.setOutput('pyenv_root', pyenv_root);
               accept(pyenv_root);
@@ -128,6 +128,7 @@ export class PyEnvInstaller {
 export class EnvironmentManager {
   private context: BuildContext;
   private inputs: ParsedInputs;
+  private pyenv_version: string;
   readonly pyenv_root: string;
   readonly pyenv_bin_path: string;
   readonly pyenv_shims_path: string;
@@ -136,6 +137,7 @@ export class EnvironmentManager {
     const {context, pyenv_root} = params;
     this.context = context;
     this.inputs = context.inputs;
+    this.pyenv_version = context.pyenv_version;
     this.pyenv_root = pyenv_root;
     this.pyenv_bin_path = `${this.pyenv_root}/bin`;
     this.pyenv_shims_path = `${this.pyenv_root}/shims`;
@@ -163,11 +165,25 @@ export class EnvironmentManager {
 
   async run_pyenv_install(version: string): Promise<string> {
     return new Promise<string>((accept, reject) => {
+      const cached_python = tc.find(
+        'pyenv-python-${version}',
+        this.pyenv_version
+      );
+      if (fs.existsSync(cached_python)) {
+        return accept(cached_python);
+      }
+
       exec
         .exec(`pyenv install ${version}`)
         .then(() => {
           console.log(`Sucessfully installed python ${version}`);
-          accept(version);
+          tc.cacheDir(
+            `${this.pyenv_root}/versions/${version}`,
+            `pyenv-python-${version}`,
+            this.pyenv_version
+          ).then(cached_path => {
+            accept(cached_path);
+          });
         })
         .catch(error => {
           console.error(`Failed to install python ${version}`);
