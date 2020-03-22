@@ -1,4 +1,4 @@
-name: pyenv-action tests
+name: Continuous Integration
 on: [push, pull_request]
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
           pip install -U pip
           pip install -U setuptools
 
-        versions: 3.6.5,3.7.2
+        versions: 3.6.5,
 
     # Use the output from the `hello` step
     - name: List python versions
@@ -39,5 +39,5 @@ jobs:
     - name: Verify python 3.6.5 installation
       run: pyenv local 3.6.5 && python --version
 
-    - name: Verify python 3.6.5 installation
-      run: pyenv local 3.6.5 && python --version
+    - name: Verify python 3.7.3 installation
+      run: pyenv local 3.7.3 && python --version
