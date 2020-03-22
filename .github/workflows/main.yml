@@ -1,0 +1,81 @@
+name: Continuous Integration
+on: [push, pull_request]
+
+jobs:
+  jest:
+    name: functional tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Set Node.js 12.x
+      uses: actions/setup-node@master
+      with:
+        node-version: 12.x
+
+    - name: install dependencies
+      run: npm install
+
+    - name: run jest tests
+      run: npm test
+
+  integration_test_setup:
+    runs-on: ubuntu-latest
+    name: install pyenv
+    steps:
+    - name: setup pyenv
+      id: pyenv
+      uses: "gabrielfalcao/pyenv-action@master"
+
+    # Use the output from the `hello` step
+    - name: List python versions
+      run: pyenv versions
+
+    - name: Verify default installation
+      run: python --version
+
+  integration_test_preinstall_default:
+    runs-on: ubuntu-latest
+    name: pre-install default version
+    steps:
+    - name: pyenv + python 3.7.3
+      id: pyenv
+      uses: "gabrielfalcao/pyenv-action@master"
+      with:
+        default: 3.7.3
+
+    # Use the output from the `hello` step
+    - name: List python versions
+      run: pyenv versions
+
+    - name: Verify default installation
+      run: python --version
+
+  integration_test_preinstall_versions:
+    runs-on: ubuntu-latest
+    name: pre-install multiple versions of python
+    steps:
+    - name: pyenv + python 3.6.5 and 3.7.3
+      id: pyenv
+      uses: "gabrielfalcao/pyenv-action@master"
+      with:
+        default: 3.7.3
+        command: |
+          pip install -U pip
+          pip install -U setuptools
+
+        versions: 3.6.5,
+
+    # Use the output from the `hello` step
+    - name: List python versions
+      run: pyenv versions
+
+    - name: Verify default installation
+      run: python --version
+
+    - name: Verify python 3.6.5 installation
+      run: pyenv local 3.6.5 && python --version
+
+    - name: Verify python 3.7.3 installation
+      run: pyenv local 3.7.3 && python --version

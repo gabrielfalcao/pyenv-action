@@ -1,0 +1,30 @@
+name: 'Pyenv Build'
+author: 'Gabriel Falcão'
+description: 'Enables use of pyenv within build'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+
+inputs:
+  command:
+    description: |
+      what command to execute for each python version, runs within the default shell
+    required: true
+  default:
+    description: |
+      what is the default python version, automatically installs this
+      version with pyenv even if not listed in the "versions" input.
+    required: false
+  versions:
+    description: |
+      A list of python versions to install with pyenv separated by
+      comma. (e.g.: "3.6.5,3.7.3, 3.2.6")
+    required: false
+
+outputs:
+  pyenv_root:
+    description: |
+      the full filesystem path from this action
+branding:
+  icon: 'cpu'
+  color: 'blue'
