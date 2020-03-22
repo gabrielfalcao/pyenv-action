@@ -1,12 +1,12 @@
-import io = require('@actions/io');
-import tc = require('@actions/tool-cache');
-import fs = require('fs');
-import path = require('path');
+import * as io from '@actions/io';
+import * as tc from '@actions/tool-cache';
+import * as fs from 'fs';
+import * as path from 'path';
 
 import * as engine from '../src/engine';
 import * as defaults from '../src/defaults';
 
-const tmpPath = path.join(__dirname, '.test-artifacts');
+const tmpPath = path.join(__dirname, '.installer-tmp');
 
 //jestjs.io/docs/en/asynchronous
 https: describe('PyEnvInstaller', () => {
@@ -67,5 +67,8 @@ https: describe('PyEnvInstaller', () => {
 
     const stat = fs.statSync(pyenv_bin);
     expect(stat.isFile()).toBeTruthy();
+    // Running again should simply use cache
+    const cached_path = await installer.installFromArchive(archive_path);
+    expect(cached_path).toEqual(pyenv_root);
   });
 });

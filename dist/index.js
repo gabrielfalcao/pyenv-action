@@ -9288,6 +9288,8 @@ class EnvironmentManager {
         this.pyenv_root = pyenv_root;
         this.pyenv_bin_path = `${this.pyenv_root}/bin`;
         this.pyenv_shims_path = `${this.pyenv_root}/shims`;
+        this.command_filename = 'pyenv_post_install.sh';
+        this.command_script_path = `/tmp/after-each-python-install-command.sh`;
         if (!fs.existsSync(this.pyenv_root)) {
             throw new Error(`${this.pyenv_root} does not exist, make sure to install pyenv before setting up the environment`);
         }
@@ -9302,6 +9304,49 @@ class EnvironmentManager {
         core.addPath(this.pyenv_shims_path);
         console.log(`Patched PATH with "${this.pyenv_bin_path}"`);
     }
+    ensure_script_exists_with_command() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const command_body = `#!/usr/bin/env bash\n${this.context.inputs.command}`;
+            return new Promise((accept, reject) => {
+                let cached_path = tc.find(`pyenv_post_install.sh`, this.pyenv_version);
+                if (fs.existsSync(cached_path)) {
+                    return accept(path.join(cached_path, this.command_filename));
+                }
+                fs.writeFile(this.command_script_path, command_body, error => {
+                    if (error)
+                        return reject(error);
+                    tc.cacheFile(this.command_script_path, 'pyenv_post_install.sh', 'pyenv', this.pyenv_version)
+                        .then(cached_path => {
+                        const script_path = path.join(cached_path, this.command_filename);
+                        accept(script_path);
+                    })
+                        .catch(error => {
+                        reject(error);
+                    });
+                });
+            });
+        });
+    }
+    run_command_in_python_version(version) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((accept, reject) => {
+                this.ensure_script_exists_with_command()
+                    .then(command_path => {
+                    exec
+                        .exec(`bash ${command_path}`)
+                        .then(() => {
+                        accept(true);
+                    })
+                        .catch(error => {
+                        reject(error);
+                    });
+                })
+                    .catch(error => {
+                    reject(error);
+                });
+            });
+        });
+    }
     run_pyenv_install(version) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((accept, reject) => {
@@ -9314,7 +9359,14 @@ class EnvironmentManager {
                     .then(() => {
                     console.log(`Sucessfully installed python ${version}`);
                     tc.cacheDir(`${this.pyenv_root}/versions/${version}`, `pyenv-python`, version).then(cached_path => {
-                        accept(cached_path);
+                        this.run_command_in_python_version(version)
+                            .then(() => {
+                            accept(cached_path);
+                        })
+                            .catch(error => {
+                            console.error(`Failed to run command for pyenv's python ${version}`);
+                            reject(error);
+                        });
                     });
                 })
                     .catch(error => {

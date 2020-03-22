@@ -10,8 +10,8 @@
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
     "release": "ncc build src/pyenv-action.ts && git add -f dist/",
-    "test": "jest",
-    "test-watch": "jest --watch",
+    "test": "jest --runInBand",
+    "test-watch": "jest --runInBand --detectOpenHandles --bail --watch",
     "lint": "eslint . --ext .ts"
   },
   "repository": {

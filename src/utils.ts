@@ -1,3 +1,19 @@
+import * as fs from 'fs';
+
+export function file_exists(file_path: string): boolean {
+  if (!fs.existsSync(file_path)) {
+    return false;
+  }
+  const st = fs.statSync(file_path);
+  return st.isFile();
+}
+export function folder_exists(folder_path: string): boolean {
+  if (!fs.existsSync(folder_path)) {
+    return false;
+  }
+  const st = fs.statSync(folder_path);
+  return st.isDirectory();
+}
 export function splitcommas(name: string): Array<string> {
   return name
     .split(',')
