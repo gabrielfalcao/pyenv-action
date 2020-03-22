@@ -58,9 +58,8 @@ describe('PyEnvInstaller', () => {
   it('Can install pyenv', async () => {
     const installer = new engine.PyEnvInstaller(defaults.PYENV_VERSION);
     const archive_path = await installer.downloadArchive();
-    await installer.installFromArchive(archive_path);
-    const cachepath = tc.find('pyenv', defaults.PYENV_VERSION);
-    const pyenv_bin = path.join(cachepath, 'bin', 'pyenv');
+    const pyenv_root = await installer.installFromArchive(archive_path);
+    const pyenv_bin = path.join(pyenv_root, 'bin', 'pyenv');
     const stat = fs.statSync(pyenv_bin);
     expect(stat.isFile()).toBeTruthy();
   });
