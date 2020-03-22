@@ -20,13 +20,13 @@ jobs:
     - name: run jest tests
       run: npm test
 
-  self_test:
+  master_self_test:
     runs-on: ubuntu-latest
-    name: pyenv-action self-test
+    name: pyenv-action self-test on master
     steps:
     - name: Enable pyenv in build
       id: pyenv
-      uses: "gabrielfalcao/pyenv-action@${{ github.sha }}"
+      uses: "gabrielfalcao/pyenv-action@master"
       with:
         default: 3.7.3
         command: |
