@@ -9237,6 +9237,7 @@ class PyEnvInstaller {
                     if (!fs.existsSync(archive_path)) {
                         return reject(new Error(`${archive_path} does not exist`));
                     }
+                    this.archive_path = archive_path;
                     accept(archive_path);
                 })
                     .catch(err => {
