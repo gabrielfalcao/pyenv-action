@@ -5,10 +5,11 @@ default: release
 watch: format
 	npm run watch
 
-dist/index.js: format
-	npm run build
-	npm run test
+dist/index.js: lib/pyenv-action.js
 	npm run release
+
+lib/pyenv-action.js:
+	npm run build
 
 release: dist/index.js
 
