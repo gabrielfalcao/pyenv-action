@@ -3625,9 +3625,12 @@ function paginatePlugin(octokit) {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 function splitcommas(name) {
-    return name.split(',').map(function (path) {
+    return name
+        .split(',')
+        .map(function (path) {
         return path.trim();
-    });
+    })
+        .filter(name => name.length > 0);
 }
 exports.splitcommas = splitcommas;
 function __only_unique__(value, index, self) {

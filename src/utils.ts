@@ -1,7 +1,10 @@
 export function splitcommas(name: string): Array<string> {
-  return name.split(',').map(function(path) {
-    return path.trim();
-  });
+  return name
+    .split(',')
+    .map(function(path) {
+      return path.trim();
+    })
+    .filter(name => name.length > 0);
 }
 
 function __only_unique__(value: string, index: number, self: Array<string>) {
