@@ -14,9 +14,6 @@ jobs:
       with:
         node-version: 12.x
 
-    - name: install nodejs dependencies
-      run: npm install
-
     - name: run jest tests
       run: npm test
 
