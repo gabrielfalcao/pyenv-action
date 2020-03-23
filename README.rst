@@ -16,7 +16,7 @@ Features:
 =========
 
 - Installs pyenv ``1.2.17``.
-- Exports PYENV_ROOT environment variable.
+- Exports `PYENV_ROOT <https://github.com/pyenv/pyenv#environment-variables>`_ environment variable.
 - Injects ``$PYENV_ROOT/bin`` in the PATH.
 - Injects `pyenv shims <https://github.com/pyenv/pyenv#understanding-shims>`_ in the PATH.
 - Pre-install specified python versions.
