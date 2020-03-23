@@ -140,8 +140,8 @@ Example:
          versions: 3.6.4, 3.7.2
 
 
-**command** (work-in-progress for v1)
--------------------------------------
+**command**
+-----------
 
 A command that will be executed after installing each python version.
 
