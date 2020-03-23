@@ -296,6 +296,7 @@ export class EnvironmentManager {
 
       const cached_python = tc.find(cache_key, cache_version);
       if (utils.folder_exists(cached_python)) {
+        console.log(`Using cached python installation ${version}`);
         return accept(cached_python);
       }
 
