@@ -1,4 +1,4 @@
-.PHONY: default watch release build format lint test
+.PHONY: default watch release build format lint test clean
 
 default: release
 
@@ -11,7 +11,7 @@ dist/index.js: lib/pyenv-action.js
 lib/pyenv-action.js:
 	npm run build
 
-release: dist/index.js
+release: clean dist/index.js
 
 build: format
 	npm run build
@@ -27,3 +27,6 @@ test:
 
 test-watch:
 	npm run test-watch
+
+clean:
+	rm -f dist/index.js

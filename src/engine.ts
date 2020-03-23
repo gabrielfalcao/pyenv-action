@@ -21,7 +21,7 @@ export class ParsedInputs {
 
   constructor() {
     this.default_version = core.getInput('default');
-    this.command = core.getInput('command');
+    this.command = core.getInput('command') || '';
     this.explicit_versions = utils.splitcommas(core.getInput('versions'));
   }
   get versions() {
@@ -249,6 +249,13 @@ export class EnvironmentManager {
   }
   async run_command_in_python_version(version: string): Promise<boolean> {
     return new Promise<boolean>((accept, reject) => {
+      if (this.context.inputs.command.length == 0) {
+        console.log(
+          `no "command" input was provided, skipping post-install command.`
+        );
+        return accept(true);
+      }
+
       if (typeof version != 'string') {
         return reject(new Error(`version ${version} is not a string`));
       }

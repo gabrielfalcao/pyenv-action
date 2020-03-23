@@ -9222,7 +9222,7 @@ const utils = __importStar(__webpack_require__(163));
 class ParsedInputs {
     constructor() {
         this.default_version = core.getInput('default');
-        this.command = core.getInput('command');
+        this.command = core.getInput('command') || '';
         this.explicit_versions = utils.splitcommas(core.getInput('versions'));
     }
     get versions() {
@@ -9391,6 +9391,10 @@ class EnvironmentManager {
     run_command_in_python_version(version) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((accept, reject) => {
+                if (this.context.inputs.command.length == 0) {
+                    console.log(`no "command" input was provided, skipping post-install command.`);
+                    return accept(true);
+                }
                 if (typeof version != 'string') {
                     return reject(new Error(`version ${version} is not a string`));
                 }
