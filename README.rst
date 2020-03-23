@@ -7,7 +7,7 @@ pyenv-action
 .. image:: https://img.shields.io/github/license/gabrielfalcao/pyenv-action?label=Github%20License
    :target: https://github.com/gabrielfalcao/pyenv-action/blob/master/LICENSE
 
-.. image:: https://img.shields.io/github/v/tag/gabrielfalcao/pyenv-action
+.. image:: https://img.shields.io/github/v/tag/gabrielfalcao/pyenv-action?label=Latest%20Release
    :target: https://github.com/gabrielfalcao/pyenv-action/releases
 
 This GitHub Action allows using pyenv in your build.
