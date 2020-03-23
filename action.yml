@@ -26,5 +26,5 @@ outputs:
     description: |
       the full filesystem path from this action
 branding:
-  icon: 'cpu'
-  color: 'blue'
+  icon: 'terminal'  # or 'sliders'
+  color: 'gray-dark'
