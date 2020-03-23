@@ -197,4 +197,4 @@ Example:
          uses: "gabrielfalcao/pyenv-action@v4"
 
        - name: debug pyenv
-         run: echo ${{ pyenv_installation.pyenv_root }}
+         run: echo ${{ steps.pyenv_installation.outputs.pyenv_root }}

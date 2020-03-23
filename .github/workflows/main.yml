@@ -28,7 +28,6 @@ jobs:
       id: pyenv
       uses: "gabrielfalcao/pyenv-action@master"
 
-    # Use the output from the `hello` step
     - name: List python versions
       run: pyenv versions
 
@@ -36,7 +35,7 @@ jobs:
       run: python --version
 
     - name: list files in pyenv_root
-      run: ls -lhtr ${{ pyenv.pyenv_root }}
+      run: ls -lhtr ${{ steps.pyenv.outputs.pyenv_root }}
 
   integration_test_preinstall_default:
     runs-on: ubuntu-latest
@@ -48,7 +47,6 @@ jobs:
       with:
         default: 3.7.3
 
-    # Use the output from the `hello` step
     - name: List python versions
       run: pyenv versions
 
@@ -70,7 +68,6 @@ jobs:
 
         versions: 3.6.5,
 
-    # Use the output from the `hello` step
     - name: List python versions
       run: pyenv versions
 
@@ -99,7 +96,6 @@ jobs:
 
         versions: 3.6.5,
 
-    # Use the output from the `hello` step
     - name: List python versions
       run: pyenv versions
 
