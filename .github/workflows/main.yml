@@ -35,6 +35,9 @@ jobs:
     - name: Verify default installation
       run: python --version
 
+    - name: list files in pyenv_root
+      run: ls -lhtr ${{ pyenv.pyenv_root }}
+
   integration_test_preinstall_default:
     runs-on: ubuntu-latest
     name: pre-install default version
