@@ -9246,6 +9246,7 @@ class ParsedInputs {
             '# set python version within this script',
             `export PYENV_VERSION="${python_version}";`,
             '',
+            'set -ex;',
             '# run user-provided command:',
             this.sanitized_command
         ].join('\n');
