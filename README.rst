@@ -30,38 +30,42 @@ Usage
 =====
 
 
-Simple usage
-------------
+Example
+-------
 
-Installs python 3.7.3 with pyenv, create virtualenv and install
-dependencies
+Installs python versions 3.6.5 and 3.7.3 with pyenv, upgrade pip for
+each of them and run pytest.
+
 
 
 .. code:: yaml
 
-   name: Using python 3.7.3 with pyenv
+   name: Using
    on: [push, pull_request]
 
    jobs:
-
-     test_pyenv:
+     my_python_job:
+       name: "Python"
        runs-on: ubuntu-latest
-       name: install pyenv
-       steps:
-       - name: setup pyenv
-         uses: "gabrielfalcao/pyenv-action@v4"
-         with:
-           default: 3.7.3
+       strategy:
+         matrix:
+           python:
+             - 3.6.5
+             - 3.7.3
 
-       - name: create virtualenv for python 3.7.3
-         run: python3 -mvenv .venv373
+       steps:
+       - uses: actions/checkout@v2
+       - name: Install python version
+         uses: gabrielfalcao/pyenv-action@v4
+         with:
+           default: "${{ matrix.python }}"
+           command: pip install -U pip  # upgrade pip after installing python
 
        - name: Install dependencies
-         run: .venv373/bin/pip install -r development.txt
+         run: pip install -r requirements.txt
 
        - name: Run tests
-         run: .venv373/bin/pytest .
-
+         run: pytest .
 
 Enable multiple python versions in your github-action
 -----------------------------------------------------
