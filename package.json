@@ -28,7 +28,7 @@
   "author": "Gabriel Falcão",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "1.2.3",
+    "@actions/core": "1.2.4",
     "@actions/github": "2.1.1",
     "@actions/exec": "1.0.3",
     "@actions/io": "1.0.2",
