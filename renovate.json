@@ -1,5 +1,12 @@
 {
   "extends": [
     "config:base"
+  ],
+  "rebaseWhen": "behind-base-branch",
+  "packageRules": [
+    {
+      "updateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    }
   ]
 }
