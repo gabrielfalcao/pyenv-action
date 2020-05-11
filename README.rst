@@ -15,7 +15,7 @@ This GitHub Action allows using pyenv in your build.
 Features:
 =========
 
-- Installs pyenv ``1.2.17``.
+- Installs pyenv ``1.2.18``.
 - Exports `PYENV_ROOT <https://github.com/pyenv/pyenv#environment-variables>`_ environment variable.
 - Injects ``$PYENV_ROOT/bin`` in the PATH.
 - Injects `pyenv shims <https://github.com/pyenv/pyenv#understanding-shims>`_ in the PATH.
