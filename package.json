@@ -51,7 +51,7 @@
     "jest": "26.0.1",
     "jest-circus": "26.0.1",
     "prettier": "1.19.1",
-    "ts-jest": "25.5.1",
+    "ts-jest": "26.0.0",
     "typescript": "3.9.3"
   },
   "husky": {
