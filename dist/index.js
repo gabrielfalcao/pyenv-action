@@ -9013,7 +9013,7 @@ function getPreviousPage (octokit, link, headers) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PYENV_VERSION = '1.2.18';
+exports.PYENV_VERSION = '1.2.20';
 
 
 /***/ }),
