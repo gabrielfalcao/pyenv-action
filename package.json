@@ -32,7 +32,7 @@
     "@actions/github": "2.2.0",
     "@actions/exec": "1.0.4",
     "@actions/io": "1.0.2",
-    "@actions/tool-cache": "1.6.0",
+    "@actions/tool-cache": "1.6.1",
     "semver": "7.3.2"
   },
   "devDependencies": {
