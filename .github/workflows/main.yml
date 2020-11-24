@@ -9,13 +9,13 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
 
-    - name: Set Node.js 12.x
+    - name: Set Node.js 14.x
       uses: actions/setup-node@master
       with:
-        node-version: 12.x
+        node-version: 14.x
 
     - name: install dependencies
-      run: npm install
+      run: npm ci
 
     - name: run jest tests
       run: npm test
