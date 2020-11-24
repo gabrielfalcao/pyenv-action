@@ -33,7 +33,7 @@
     "@actions/github": "4.0.0",
     "@actions/io": "1.0.2",
     "@actions/tool-cache": "1.6.1",
-    "@octokit/core": "^3.2.1",
+    "@octokit/core": "3.2.1",
     "semver": "7.3.2"
   },
   "devDependencies": {
