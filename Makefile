@@ -35,7 +35,7 @@ dist/index.js: | lib/pyenv-action.js
 lib/pyenv-action.js: | $(typescript)
 	npm run build
 
-release: clean dist/index.js
+release: clean test dist/index.js
 
 build: format
 	npm run build
