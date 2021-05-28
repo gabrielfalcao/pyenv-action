@@ -9444,7 +9444,7 @@ function wrappy (fn, cb) {
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PYENV_VERSION = void 0;
-exports.PYENV_VERSION = '1.2.21';
+exports.PYENV_VERSION = '2.0.0';
 
 
 /***/ }),
