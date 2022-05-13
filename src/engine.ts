@@ -94,7 +94,7 @@ export class PyEnvInstaller {
       const cache_version = this.pyenv_version;
       const cached_archive = tc.find(cache_key, cache_version);
 
-      if (utils.file_exists(cached_archive)) {
+      if (cached_archive) {
         return accept(path.join(cached_archive, cache_key));
       }
       console.log(`downloading ${this.archive_url}`);
@@ -126,10 +126,9 @@ export class PyEnvInstaller {
 
   async installFromArchive(archive_path: string): Promise<string> {
     return new Promise<string>((accept, reject) => {
-      if (utils.file_exists(this.archive_path)) {
-        return accept(
-          path.join(this.archive_path, `pyenv-${this.pyenv_version}`)
-        );
+      const cached_pyenv_root = tc.find('pyenv_root', this.pyenv_version);
+      if (cached_pyenv_root) {
+        return accept(cached_pyenv_root);
       }
       tc.extractZip(archive_path, tc.find('pyenv_archive', this.pyenv_version))
         .then(inflation_path => {
@@ -296,7 +295,7 @@ export class EnvironmentManager {
       const cache_version = version;
 
       const cached_python = tc.find(cache_key, cache_version);
-      if (utils.folder_exists(cached_python)) {
+      if (cached_python) {
         console.log(`Using cached python installation ${version}`);
         return accept(cached_python);
       }
@@ -353,7 +352,7 @@ export class EnvironmentManager {
         `pyenv-${this.pyenv_version}-python`,
         version
       );
-      if (!utils.folder_exists(cached_python)) {
+      if (!cached_python) {
         return reject(
           new Error(`python ${version} was not installed via pyenv`)
         );
