@@ -47,6 +47,12 @@ jobs:
       with:
         default: 3.7.3
 
+    - name: pyenv + python 3.7.3 cached
+      id: pyenv2
+      uses: "gabrielfalcao/pyenv-action@master"
+      with:
+        default: 3.7.3
+
     - name: List python versions
       run: pyenv versions
 

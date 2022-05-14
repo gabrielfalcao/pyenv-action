@@ -15,7 +15,7 @@ This GitHub Action allows using pyenv in your build.
 Features:
 =========
 
-- Installs pyenv ``1.2.21``.
+- Installs pyenv ``2.3.0``.
 - Exports `PYENV_ROOT <https://github.com/pyenv/pyenv#environment-variables>`_ environment variable.
 - Injects ``$PYENV_ROOT/bin`` in the PATH.
 - Injects `pyenv shims <https://github.com/pyenv/pyenv#understanding-shims>`_ in the PATH.
@@ -56,7 +56,7 @@ each of them and run pytest.
        steps:
        - uses: actions/checkout@v2
        - name: Install python version
-         uses: gabrielfalcao/pyenv-action@v5
+         uses: gabrielfalcao/pyenv-action@v9
          with:
            default: "${{ matrix.python }}"
            command: pip install -U pip  # upgrade pip after installing python
@@ -82,7 +82,7 @@ Enable multiple python versions in your github-action
        name: install pyenv
        steps:
        - name: setup pyenv
-         uses: "gabrielfalcao/pyenv-action@v5"
+         uses: "gabrielfalcao/pyenv-action@v9"
          with:
            default: 3.7.2
            versions: 3.6.8, 3.5.7
@@ -119,7 +119,7 @@ Example:
 .. code:: yaml
 
    - name: setup pyenv
-     uses: "gabrielfalcao/pyenv-action@v5"
+     uses: "gabrielfalcao/pyenv-action@v9"
      with:
          default: 3.7.5
 
@@ -139,7 +139,7 @@ Example:
 .. code:: yaml
 
    - name: setup pyenv
-     uses: "gabrielfalcao/pyenv-action@v5"
+     uses: "gabrielfalcao/pyenv-action@v9"
      with:
          versions: 3.6.4, 3.7.2
 
@@ -158,7 +158,7 @@ Example:
 .. code:: yaml
 
    - name: setup pyenv
-     uses: "gabrielfalcao/pyenv-action@v5"
+     uses: "gabrielfalcao/pyenv-action@v9"
      with:
          versions: 3.6.4, 3.7.2
          command: |
@@ -194,7 +194,7 @@ Example:
        steps:
        - name: setup pyenv
          id: pyenv_installation
-         uses: "gabrielfalcao/pyenv-action@v5"
+         uses: "gabrielfalcao/pyenv-action@v9"
 
        - name: debug pyenv
          run: echo ${{ steps.pyenv_installation.outputs.pyenv_root }}

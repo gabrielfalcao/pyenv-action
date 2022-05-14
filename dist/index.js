@@ -9444,7 +9444,7 @@ function wrappy (fn, cb) {
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PYENV_VERSION = void 0;
-exports.PYENV_VERSION = '1.2.21';
+exports.PYENV_VERSION = '2.3.0';
 
 
 /***/ }),
@@ -9551,7 +9551,7 @@ class PyEnvInstaller {
                 const cache_key = `pyenv-archive.zip`;
                 const cache_version = this.pyenv_version;
                 const cached_archive = tc.find(cache_key, cache_version);
-                if (utils.file_exists(cached_archive)) {
+                if (cached_archive) {
                     return accept(path.join(cached_archive, cache_key));
                 }
                 console.log(`downloading ${this.archive_url}`);
@@ -9578,8 +9578,9 @@ class PyEnvInstaller {
     installFromArchive(archive_path) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((accept, reject) => {
-                if (utils.file_exists(this.archive_path)) {
-                    return accept(path.join(this.archive_path, `pyenv-${this.pyenv_version}`));
+                const cached_pyenv_root = tc.find('pyenv_root', this.pyenv_version);
+                if (cached_pyenv_root) {
+                    return accept(cached_pyenv_root);
                 }
                 tc.extractZip(archive_path, tc.find('pyenv_archive', this.pyenv_version))
                     .then(inflation_path => {
@@ -9706,7 +9707,7 @@ class EnvironmentManager {
                 const cache_key = `pyenv-${this.pyenv_version}-python`;
                 const cache_version = version;
                 const cached_python = tc.find(cache_key, cache_version);
-                if (utils.folder_exists(cached_python)) {
+                if (cached_python) {
                     console.log(`Using cached python installation ${version}`);
                     return accept(cached_python);
                 }
@@ -9756,7 +9757,7 @@ class EnvironmentManager {
             return new Promise((accept, reject) => {
                 const version = this.context.inputs.default_version;
                 const cached_python = tc.find(`pyenv-${this.pyenv_version}-python`, version);
-                if (!utils.folder_exists(cached_python)) {
+                if (!cached_python) {
                     return reject(new Error(`python ${version} was not installed via pyenv`));
                 }
                 exec
@@ -10050,7 +10051,7 @@ module.exports = require("zlib");;
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -10063,7 +10064,7 @@ module.exports = require("zlib");;
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		var threw = true;
 /******/ 		try {
@@ -10072,14 +10073,14 @@ module.exports = require("zlib");;
 /******/ 		} finally {
 /******/ 			if(threw) delete __webpack_module_cache__[moduleId];
 /******/ 		}
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat */
-/******/ 	
+/******/
 /******/ 	__webpack_require__.ab = __dirname + "/";/************************************************************************/
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
