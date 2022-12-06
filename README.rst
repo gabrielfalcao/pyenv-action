@@ -56,7 +56,7 @@ each of them and run pytest.
        steps:
        - uses: actions/checkout@v2
        - name: Install python version
-         uses: gabrielfalcao/pyenv-action@v9
+         uses: gabrielfalcao/pyenv-action@v11
          with:
            default: "${{ matrix.python }}"
            command: pip install -U pip  # upgrade pip after installing python
