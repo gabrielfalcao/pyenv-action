@@ -21,12 +21,26 @@ jobs:
       run: npm test
 
   integration_test_setup:
+      matrix:
+        pyenv_version:
+          - main
+          - v11
+          - v10
+          - v9
+          - v8
+        python_version:
+          - 3.7.16
+          - 3.8.13
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version:
     runs-on: ubuntu-latest
     name: install pyenv
     steps:
     - name: setup pyenv
       id: pyenv
-      uses: "gabrielfalcao/pyenv-action@main"
+      uses: "gabrielfalcao/pyenv-action@${{ matrix.pyenv_version }}"
 
     - name: List python versions
       run: pyenv versions
@@ -41,33 +55,33 @@ jobs:
     runs-on: ubuntu-latest
     name: pre-install default version
     steps:
-    - name: pyenv + python 3.7.16
+    - name: pyenv + python ${matrix.python_version}
       id: pyenv
-      uses: "gabrielfalcao/pyenv-action@main"
+      uses: "gabrielfalcao/pyenv-action@${matrix.pyenv_version}"
       with:
-        default: 3.7.16
+        default: ${matrix.pyenv_version}
 
     - name: pyenv + python 3.7.16 cached
       id: pyenv2
-      uses: "gabrielfalcao/pyenv-action@main"
+      uses: "gabrielfalcao/pyenv-action@${matrix.pyenv_version}"
       with:
-        default: 3.7.16
+        default: ${matrix.pyenv_version}
 
     - name: List python versions
       run: pyenv versions
 
     - name: Verify default installation
-      run: python --version | grep 3.7.16
+      run: python --version | grep ${matrix.python_version}
 
   integration_test_preinstall_versions:
     runs-on: ubuntu-latest
     name: pre-install multiple versions of python
     steps:
-    - name: pyenv + python 3.6.15 and 3.7.16
+    - name: pyenv + python 3.6.15 and ${matrix.python_version}
       id: pyenv
       uses: "gabrielfalcao/pyenv-action@main"
       with:
-        default: 3.7.16
+        default: ${matrix.python_version}
         command: |
           pip install -U pip
           pip install -U setuptools
@@ -83,19 +97,19 @@ jobs:
     - name: Verify python 3.6.15 installation
       run: pyenv local 3.6.15 && python --version | grep 3.6.15
 
-    - name: Verify python 3.7.16 installation
-      run: pyenv local 3.7.16 && python --version | grep 3.7.16
+    - name: Verify python ${matrix.python_version} installation
+      run: pyenv local ${matrix.python_version} && python --version | grep ${matrix.python_version}
 
 
   integration_test_run_command_after_each_installation:
     runs-on: ubuntu-latest
     name: run command after installing each python version
     steps:
-    - name: Python 3.6.15 and 3.7.16 with latest pip
+    - name: Python 3.6.15 and ${matrix.python_version} with latest pip
       id: pyenv
       uses: "gabrielfalcao/pyenv-action@main"
       with:
-        default: 3.7.16
+        default: ${matrix.python_version}
         command: |
           pip install -U pip
           pip install -U setuptools
@@ -111,5 +125,5 @@ jobs:
     - name: Verify pip version on python 3.6.15 installation
       run: pyenv local 3.6.15 && pip --version
 
-    - name: Verify pip version on python 3.7.16 installation
-      run: pyenv local 3.7.16 && pip --version
+    - name: Verify pip version on python ${matrix.python_version} installation
+      run: pyenv local ${matrix.python_version} && pip --version

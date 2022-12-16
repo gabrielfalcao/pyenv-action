@@ -82,3 +82,4 @@ __tests__/.installer-tmp/
 __tests__/.environment-tmp/
 __tests__/.test-artifacts/
 .tmp
+yarn.lock
