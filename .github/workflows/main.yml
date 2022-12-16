@@ -26,7 +26,7 @@ jobs:
     steps:
     - name: setup pyenv
       id: pyenv
-      uses: "gabrielfalcao/pyenv-action@v11"
+      uses: "gabrielfalcao/pyenv-action@main"
 
     - name: List python versions
       run: pyenv versions
@@ -43,13 +43,13 @@ jobs:
     steps:
     - name: pyenv + python 3.7.16
       id: pyenv
-      uses: "gabrielfalcao/pyenv-action@v11"
+      uses: "gabrielfalcao/pyenv-action@main"
       with:
         default: 3.7.16
 
     - name: pyenv + python 3.7.16 cached
       id: pyenv2
-      uses: "gabrielfalcao/pyenv-action@v11"
+      uses: "gabrielfalcao/pyenv-action@main"
       with:
         default: 3.7.16
 
@@ -65,7 +65,7 @@ jobs:
     steps:
     - name: pyenv + python 3.6.15 and 3.7.16
       id: pyenv
-      uses: "gabrielfalcao/pyenv-action@v11"
+      uses: "gabrielfalcao/pyenv-action@main"
       with:
         default: 3.7.16
         command: |
@@ -93,7 +93,7 @@ jobs:
     steps:
     - name: Python 3.6.15 and 3.7.16 with latest pip
       id: pyenv
-      uses: "gabrielfalcao/pyenv-action@v11"
+      uses: "gabrielfalcao/pyenv-action@main"
       with:
         default: 3.7.16
         command: |
