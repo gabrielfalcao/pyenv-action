@@ -22,7 +22,7 @@ jobs:
 
   integration_test_setup:
       matrix:
-        pyenv_version:
+        pyenv_action_version:
           - main
           - v11
           - v10
@@ -31,6 +31,8 @@ jobs:
         python_version:
           - 3.7.16
           - 3.8.13
+          - 3.6.15
+
     steps:
       - uses: actions/setup-node@v3
         with:
@@ -40,7 +42,7 @@ jobs:
     steps:
     - name: setup pyenv
       id: pyenv
-      uses: "gabrielfalcao/pyenv-action@${{ matrix.pyenv_version }}"
+      uses: "gabrielfalcao/pyenv-action@${{ matrix.pyenv_action_version }}"
 
     - name: List python versions
       run: pyenv versions
@@ -57,15 +59,15 @@ jobs:
     steps:
     - name: pyenv + python ${matrix.python_version}
       id: pyenv
-      uses: "gabrielfalcao/pyenv-action@${matrix.pyenv_version}"
+      uses: "gabrielfalcao/pyenv-action@${matrix.pyenv_action_version}"
       with:
-        default: ${matrix.pyenv_version}
+        default: ${matrix.pyenv_action_version}
 
     - name: pyenv + python 3.7.16 cached
       id: pyenv2
-      uses: "gabrielfalcao/pyenv-action@${matrix.pyenv_version}"
+      uses: "gabrielfalcao/pyenv-action@${matrix.pyenv_action_version}"
       with:
-        default: ${matrix.pyenv_version}
+        default: ${matrix.pyenv_action_version}
 
     - name: List python versions
       run: pyenv versions
