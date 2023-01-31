@@ -1,6 +1,6 @@
-.PHONY: default watch release build format lint test clean
+.PHONY: default watch release build format lint test clean node-check
 
-NODE_VERSION	:= v12.16.1
+NODE_VERSION	:= v16.18.0
 GIT_ROOT	:= $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 NODE_ROOT	:= $(GIT_ROOT)/node_modules
 NODE_BIN	:= $(NODE_ROOT)/.bin
@@ -29,7 +29,7 @@ $(typescript) $(eslint) $(prettier) $(ncc) $(jest): | $(NODE_BIN)
 watch: format | $(typescript)
 	npm run watch
 
-dist/index.js: | lib/pyenv-action.js
+dist/index.js: | $(NODE_BIN) lib/pyenv-action.js
 	npm run release
 
 lib/pyenv-action.js: | $(typescript)
@@ -37,7 +37,7 @@ lib/pyenv-action.js: | $(typescript)
 
 release: clean test dist/index.js
 
-build: format
+build: format | $(NODE_BIN)
 	npm run build
 
 format: | $(prettier)
@@ -54,3 +54,7 @@ test-watch: | $(jest)
 
 clean:
 	rm -f dist/index.js
+
+node-check: $(NODE_BIN) $(NODE_ROOT)
+	@echo BIN $(NODE_BIN)
+	@echo ROOT $(NODE_ROOT)
