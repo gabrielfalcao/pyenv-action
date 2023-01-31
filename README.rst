@@ -82,7 +82,7 @@ Enable multiple python versions in your github-action
        name: install pyenv
        steps:
        - name: setup pyenv
-         uses: "gabrielfalcao/pyenv-action@v9"
+         uses: "gabrielfalcao/pyenv-action@v11"
          with:
            default: 3.7.2
            versions: 3.6.8, 3.5.7
