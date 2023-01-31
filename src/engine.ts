@@ -215,10 +215,8 @@ export class EnvironmentManager {
         return reject(new Error(`version "${version}" is invalid`));
       }
 
-      const command_body: string = this.context.inputs.get_command_as_shell_script(
-        '/bin/bash',
-        version
-      );
+      const command_body: string =
+        this.context.inputs.get_command_as_shell_script('/bin/bash', version);
 
       const cached_path: string = tc.find(cache_key, cache_version);
 
