@@ -18,6 +18,9 @@
     "type": "git",
     "url": "git+https://github.com/gabrielfalcao/pyenv-action.git"
   },
+  "engines": {
+    "node": ">=16 <18"
+  },
   "keywords": [
     "actions",
     "python",
