@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@master
+      uses: actions/checkout@v3
 
     - name: Set Node.js 14.x
       uses: actions/setup-node@master
@@ -24,9 +24,14 @@ jobs:
     runs-on: ubuntu-latest
     name: install pyenv
     steps:
+    - name: extract branch name
+      id: extract_branch
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_HEAD_REF})"
+      shell: bash
+
     - name: setup pyenv
       id: pyenv
-      uses: "gabrielfalcao/pyenv-action@main"
+      uses: "gabrielfalcao/pyenv-action@${{ steps.extract_branch.outputs.branch }}"
 
     - name: List python versions
       run: pyenv versions
