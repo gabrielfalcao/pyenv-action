@@ -2,7 +2,7 @@ name: 'Pyenv Build'
 author: 'Gabriel Falcão'
 description: 'Enables use of pyenv within build'
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
 
 inputs:
@@ -25,6 +25,7 @@ outputs:
   pyenv_root:
     description: |
       the full filesystem path from this action
+
 branding:
   icon: 'terminal'  # or 'sliders'
   color: 'gray-dark'
