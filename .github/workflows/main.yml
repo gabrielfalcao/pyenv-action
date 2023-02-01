@@ -10,7 +10,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Set Node.js 16.x
-      uses: actions/setup-node@master
+      uses: actions/setup-node@v3
       with:
         node-version: 16.x
 
@@ -27,8 +27,7 @@ jobs:
 
     - name: setup pyenv
       id: pyenv
-      # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-output-as-url
-      uses: "gabrielfalcao/pyenv-action@${{ env.GITHUB_HEAD_REF }}"
+      uses: ./
 
     - name: List python versions
       run: pyenv versions
@@ -45,13 +44,13 @@ jobs:
     steps:
     - name: pyenv + python 3.7.16
       id: pyenv
-      uses: "gabrielfalcao/pyenv-action@main"
+      uses: ./
       with:
         default: 3.7.16
 
     - name: pyenv + python 3.7.16 cached
       id: pyenv2
-      uses: "gabrielfalcao/pyenv-action@main"
+      uses: ./
       with:
         default: 3.7.16
 
@@ -67,7 +66,7 @@ jobs:
     steps:
     - name: pyenv + python 3.6.15 and 3.7.16
       id: pyenv
-      uses: "gabrielfalcao/pyenv-action@main"
+      uses: ./
       with:
         default: 3.7.16
         command: |
@@ -95,7 +94,7 @@ jobs:
     steps:
     - name: Python 3.6.15 and 3.7.16 with latest pip
       id: pyenv
-      uses: "gabrielfalcao/pyenv-action@main"
+      uses: ./
       with:
         default: 3.7.16
         command: |
