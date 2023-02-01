@@ -38,11 +38,12 @@ jobs:
 
     - name: extract branch name
       id: extract_branch
-      run: echo "$(echo ${GITHUB_HEAD_REF})"
+      run: echo "branch=$(echo ${GITHUB_HEAD_REF}) >> $GITHUB_OUTPUT"
       shell: bash
 
     - name: setup pyenv
       id: pyenv
+      # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-output-as-url
       uses: "gabrielfalcao/pyenv-action@${{ steps.extract_branch.outputs.branch }}"
 
     - name: List python versions
