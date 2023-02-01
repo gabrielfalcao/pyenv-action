@@ -25,26 +25,10 @@ jobs:
     name: install pyenv
     steps:
 
-    # #  _____   ____
-    # # | ____| / ___|
-    # # |  _|  | |  _
-    # # | |___ | |_| |_
-    # # |_____(_)____(_)
-    # - name: save state
-    #   run: echo "{name}={value}" >> $GITHUB_STATE
-
-    # - name: set output
-    #   run: echo "{name}={value}" >> $GITHUB_OUTPUT
-
-    - name: extract branch name
-      id: extract_branch
-      run: echo "branch=$(echo ${GITHUB_HEAD_REF}) >> $GITHUB_OUTPUT"
-      shell: bash
-
     - name: setup pyenv
       id: pyenv
       # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#example-using-output-as-url
-      uses: "gabrielfalcao/pyenv-action@${{ steps.extract_branch.outputs.branch }}"
+      uses: "gabrielfalcao/pyenv-action@${{ env.GITHUB_HEAD_REF }}"
 
     - name: List python versions
       run: pyenv versions
