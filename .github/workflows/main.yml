@@ -9,10 +9,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Set Node.js 14.x
+    - name: Set Node.js 16.x
       uses: actions/setup-node@master
       with:
-        node-version: 14.x
+        node-version: 16.x
 
     - name: install dependencies
       run: npm ci
@@ -24,9 +24,21 @@ jobs:
     runs-on: ubuntu-latest
     name: install pyenv
     steps:
+
+    # #  _____   ____
+    # # | ____| / ___|
+    # # |  _|  | |  _
+    # # | |___ | |_| |_
+    # # |_____(_)____(_)
+    # - name: save state
+    #   run: echo "{name}={value}" >> $GITHUB_STATE
+
+    # - name: set output
+    #   run: echo "{name}={value}" >> $GITHUB_OUTPUT
+
     - name: extract branch name
       id: extract_branch
-      run: echo "##[set-output name=branch;]$(echo ${GITHUB_HEAD_REF})"
+      run: echo "$(echo ${GITHUB_HEAD_REF})"
       shell: bash
 
     - name: setup pyenv
