@@ -18,7 +18,7 @@ inputs:
   versions:
     description: |
       A list of python versions to install with pyenv separated by
-      comma. (e.g.: "3.6.5,3.7.3, 3.2.6")
+      comma. (e.g.: 3.7, 3.8.16")
     required: false
 
 outputs:

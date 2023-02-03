@@ -119,7 +119,7 @@ Example:
 .. code:: yaml
 
    - name: setup pyenv
-     uses: "gabrielfalcao/pyenv-action@v9"
+     uses: "gabrielfalcao/pyenv-action@v13"
      with:
          default: 3.9
 
@@ -139,7 +139,7 @@ Example:
 .. code:: yaml
 
    - name: setup pyenv
-     uses: "gabrielfalcao/pyenv-action@v9"
+     uses: "gabrielfalcao/pyenv-action@v13"
      with:
          versions: 3.6.4, 3.7.2
 
@@ -158,7 +158,7 @@ Example:
 .. code:: yaml
 
    - name: setup pyenv
-     uses: "gabrielfalcao/pyenv-action@v9"
+     uses: "gabrielfalcao/pyenv-action@v13"
      with:
          versions: 3.6.4, 3.7.2
          command: |
@@ -194,7 +194,7 @@ Example:
        steps:
        - name: setup pyenv
          id: pyenv_installation
-         uses: "gabrielfalcao/pyenv-action@v9"
+         uses: "gabrielfalcao/pyenv-action@v13"
 
        - name: debug pyenv
          run: echo ${{ steps.pyenv_installation.outputs.pyenv_root }}

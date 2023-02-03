@@ -1,6 +1,6 @@
 {
   "name": "pyenv-action",
-  "version": "11",
+  "version": "13",
   "private": true,
   "description": "Setup python action",
   "main": "dist/index.js",
@@ -19,7 +19,7 @@
     "url": "git+https://github.com/gabrielfalcao/pyenv-action.git"
   },
   "engines": {
-    "node": ">=16 <18"
+    "node": "^16"
   },
   "keywords": [
     "actions",
