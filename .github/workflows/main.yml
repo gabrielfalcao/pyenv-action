@@ -6,7 +6,7 @@ jobs:
     name: functional tests
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
+    - name: checkout
       uses: actions/checkout@v3
 
     - name: Set Node.js 16.x
@@ -22,17 +22,19 @@ jobs:
 
   integration_test_setup:
     runs-on: ubuntu-latest
-    name: install pyenv
+    name: install pyenv and check versions
     steps:
+    - name: checkout
+      uses: actions/checkout@v3
 
     - name: setup pyenv
       id: pyenv
       uses: ./
 
-    - name: List python versions
+    - name: list python versions
       run: pyenv versions
 
-    - name: Verify default installation
+    - name: verify default installation
       run: python --version
 
     - name: list files in pyenv_root
@@ -42,6 +44,9 @@ jobs:
     runs-on: ubuntu-latest
     name: pre-install default version
     steps:
+    - name: checkout
+      uses: actions/checkout@v3
+
     - name: pyenv + python 3.7.16
       id: pyenv
       uses: ./
@@ -54,16 +59,19 @@ jobs:
       with:
         default: 3.7.16
 
-    - name: List python versions
+    - name: list python versions
       run: pyenv versions
 
-    - name: Verify default installation
+    - name: verify default installation
       run: python --version | grep 3.7.16
 
   integration_test_preinstall_versions:
     runs-on: ubuntu-latest
     name: pre-install multiple versions of python
     steps:
+    - name: checkout
+      uses: actions/checkout@v3
+
     - name: pyenv + python 3.6.15 and 3.7.16
       id: pyenv
       uses: ./
@@ -75,16 +83,16 @@ jobs:
 
         versions: 3.6.15,
 
-    - name: List python versions
+    - name: list python versions
       run: pyenv versions
 
-    - name: Verify default installation
+    - name: verify default installation
       run: python --version
 
-    - name: Verify python 3.6.15 installation
+    - name: verify python 3.6.15 installation
       run: pyenv local 3.6.15 && python --version | grep 3.6.15
 
-    - name: Verify python 3.7.16 installation
+    - name: verify python 3.7.16 installation
       run: pyenv local 3.7.16 && python --version | grep 3.7.16
 
 
@@ -92,6 +100,9 @@ jobs:
     runs-on: ubuntu-latest
     name: run command after installing each python version
     steps:
+    - name: checkout
+      uses: actions/checkout@v3
+
     - name: Python 3.6.15 and 3.7.16 with latest pip
       id: pyenv
       uses: ./
@@ -106,11 +117,11 @@ jobs:
     - name: List python versions
       run: pyenv versions
 
-    - name: Verify default installation
+    - name: verify default installation
       run: python --version
 
-    - name: Verify pip version on python 3.6.15 installation
+    - name: verify pip version on python 3.6.15 installation
       run: pyenv local 3.6.15 && pip --version
 
-    - name: Verify pip version on python 3.7.16 installation
+    - name: verify pip version on python 3.7.16 installation
       run: pyenv local 3.7.16 && pip --version
