@@ -9,7 +9,7 @@ jobs:
     - name: checkout
       uses: actions/checkout@v3
 
-    - name: Set Node.js 16.x
+    - name: set node.js 16.x
       uses: actions/setup-node@v3
       with:
         node-version: 16.x
@@ -72,7 +72,7 @@ jobs:
     - name: checkout
       uses: actions/checkout@v3
 
-    - name: pyenv + python 3.6.15 and 3.7.16
+    - name: pyenv + python 3.8.16 and 3.7.16
       id: pyenv
       uses: ./
       with:
@@ -81,7 +81,7 @@ jobs:
           pip install -U pip
           pip install -U setuptools
 
-        versions: 3.6.15,
+        versions: 3.8.16,
 
     - name: list python versions
       run: pyenv versions
@@ -89,8 +89,8 @@ jobs:
     - name: verify default installation
       run: python --version
 
-    - name: verify python 3.6.15 installation
-      run: pyenv local 3.6.15 && python --version | grep 3.6.15
+    - name: verify python 3.8.16 installation
+      run: pyenv local 3.8.16 && python --version | grep 3.8.16
 
     - name: verify python 3.7.16 installation
       run: pyenv local 3.7.16 && python --version | grep 3.7.16
@@ -103,7 +103,7 @@ jobs:
     - name: checkout
       uses: actions/checkout@v3
 
-    - name: Python 3.6.15 and 3.7.16 with latest pip
+    - name: python 3.8.16 and 3.7.16 with latest pip
       id: pyenv
       uses: ./
       with:
@@ -112,7 +112,7 @@ jobs:
           pip install -U pip
           pip install -U setuptools
 
-        versions: 3.6.15,
+        versions: 3.8.16,
 
     - name: List python versions
       run: pyenv versions
@@ -120,8 +120,8 @@ jobs:
     - name: verify default installation
       run: python --version
 
-    - name: verify pip version on python 3.6.15 installation
-      run: pyenv local 3.6.15 && pip --version
+    - name: verify pip version on python 3.8.16 installation
+      run: pyenv local 3.8.16 && pip --version
 
     - name: verify pip version on python 3.7.16 installation
       run: pyenv local 3.7.16 && pip --version
