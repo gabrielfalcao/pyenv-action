@@ -1,4 +1,4 @@
-.PHONY: default watch release build format lint test clean node-check
+
 
 NODE_VERSION	:= v16.18.0
 GIT_ROOT	:= $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
@@ -23,7 +23,7 @@ $(NODE_ROOT) $(NODE_BIN):
 	npm install
 endif
 
-$(typescript) $(eslint) $(prettier) $(ncc) $(jest): | $(NODE_BIN)
+install $(typescript) $(eslint) $(prettier) $(ncc) $(jest): | $(NODE_BIN)
 	npm install
 
 watch: format | $(typescript)
@@ -58,3 +58,16 @@ clean:
 node-check: $(NODE_BIN) $(NODE_ROOT)
 	@echo BIN $(NODE_BIN)
 	@echo ROOT $(NODE_ROOT)
+
+
+.PHONY: \
+    build \
+    clean \
+    default \
+    format \
+    install \
+    lint \
+    node-check \
+    release \
+    test \
+    watch
