@@ -120,8 +120,8 @@ jobs:
     - name: verify default installation
       run: python --version
 
-    - name: verify pip version on python 3.8.16 installation
-      run: pyenv local 3.8.16 && pip --version
-
     - name: verify pip version on python 3.7.16 installation
       run: pyenv local 3.7.16 && pip --version
+
+    - name: verify pip version on python 3.8.16 installation
+      run: pyenv local 3.8.16 && pip --version
