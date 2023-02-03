@@ -17,7 +17,7 @@ export function folder_exists(folder_path: string): boolean {
 export function splitcommas(name: string): Array<string> {
   return name
     .split(',')
-    .map(function(path) {
+    .map(function (path) {
       return path.trim();
     })
     .filter(name => name.length > 0);
