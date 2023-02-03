@@ -15,7 +15,7 @@ This GitHub Action allows using pyenv in your build.
 Features:
 =========
 
-- Installs pyenv ``2.3.8``.
+- Installs pyenv ``2.3.12``.
 - Exports `PYENV_ROOT <https://github.com/pyenv/pyenv#environment-variables>`_ environment variable.
 - Injects ``$PYENV_ROOT/bin`` in the PATH.
 - Injects `pyenv shims <https://github.com/pyenv/pyenv#understanding-shims>`_ in the PATH.
@@ -33,7 +33,7 @@ Usage
 Example
 -------
 
-Installs python versions 3.6.8 and 3.7.5 with pyenv, upgrade pip for
+Installs python versions 3.8.16 and 3.9 with pyenv, upgrade pip for
 each of them and run pytest.
 
 
@@ -50,8 +50,8 @@ each of them and run pytest.
        strategy:
          matrix:
            python:
-             - 3.6.8
-             - 3.7.5
+             - 3.8.16
+             - 3.9
 
        steps:
        - uses: actions/checkout@v3
@@ -72,7 +72,7 @@ Enable multiple python versions in your github-action
 
 .. code:: yaml
 
-   name: Using python 3.7.5 with pyenv
+   name: Using python 3.9 with pyenv
    on: [push, pull_request]
 
    jobs:
@@ -85,15 +85,15 @@ Enable multiple python versions in your github-action
          uses: "gabrielfalcao/pyenv-action@v11"
          with:
            default: 3.7.2
-           versions: 3.6.8, 3.5.7
+           versions: 3.8.16, 3.5.7
 
        # create virtualenv for each python version
 
        - name: Create virtualenv for python 3.5.7
          run: pyenv local 3.5.7 && python3 -mvenv .venv357
 
-       - name: Create virtualenv for python 3.6.8
-         run: pyenv local 3.6.8 && python3 -mvenv .venv365
+       - name: Create virtualenv for python 3.8.16
+         run: pyenv local 3.8.16 && python3 -mvenv .venv365
 
        - name: Create virtualenv for python 3.7.2
          run: pyenv local 3.7.2 && python3 -mvenv .venv372
@@ -121,7 +121,7 @@ Example:
    - name: setup pyenv
      uses: "gabrielfalcao/pyenv-action@v9"
      with:
-         default: 3.7.5
+         default: 3.9
 
 
 **versions**
