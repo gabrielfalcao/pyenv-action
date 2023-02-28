@@ -13353,7 +13353,7 @@ function wrappy (fn, cb) {
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.PYENV_VERSION = void 0;
-exports.PYENV_VERSION = '2.3.12';
+exports.PYENV_VERSION = '2.3.13';
 
 
 /***/ }),

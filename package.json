@@ -1,6 +1,6 @@
 {
   "name": "pyenv-action",
-  "version": "13",
+  "version": "14",
   "private": true,
   "description": "Setup python action",
   "main": "dist/index.js",
