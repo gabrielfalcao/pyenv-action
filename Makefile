@@ -1,4 +1,4 @@
-NODE_VERSION	:= v16.13.0
+NODE_VERSION	:= v18.16.1
 GIT_ROOT	:= $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 NODE_ROOT	:= $(GIT_ROOT)/node_modules
 NODE_BIN	:= $(NODE_ROOT)/.bin
@@ -16,7 +16,7 @@ $(NODE_ROOT) $(NODE_BIN):
 	npm install
 else
 $(NODE_ROOT) $(NODE_BIN):
-	@echo "\033[1;33mWARNING: This project is tested with node $(NODE_VERSION) only.\033[0m"
+	@echo "\033[1;33mWARNING: This project is tested with node $(NODE_VERSION).\033[0m"
 	@echo "\033[1;33mWARNING: Your node version is $(shell node -v) instead.\033[0m"
 	npm install
 endif
