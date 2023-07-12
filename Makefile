@@ -1,4 +1,4 @@
-NODE_VERSION	:= v18.16.1
+NODE_VERSION	:= v16
 GIT_ROOT	:= $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 NODE_ROOT	:= $(GIT_ROOT)/node_modules
 NODE_BIN	:= $(NODE_ROOT)/.bin
