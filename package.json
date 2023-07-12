@@ -19,7 +19,7 @@
     "url": "git+https://github.com/gabrielfalcao/pyenv-action.git"
   },
   "engines": {
-    "node": "^16"
+    "node": "^18.0.0"
   },
   "keywords": [
     "actions",
@@ -42,7 +42,7 @@
   "devDependencies": {
     "@types/jest": "29.5.3",
     "@types/js-yaml": "4.0.5",
-    "@types/node": "18.11.18",
+    "@types/node": "18.16.19",
     "@types/semver": "7.5.0",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
