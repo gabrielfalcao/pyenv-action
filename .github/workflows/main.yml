@@ -135,6 +135,9 @@ jobs:
     - name: verify default installation
       run: test "$(python --version | awk '{ print $NF }')" = "3.7.16"
 
+    - name: verify 3.7.16 installation
+      run: pyenv local 3.8.16 && test "$(python --version | awk '{ print $NF }')" = "3.8.16"
+
     - name: verify 3.8.16 installation
       run: pyenv local 3.8.16 && test "$(python --version | awk '{ print $NF }')" = "3.8.16"
 
