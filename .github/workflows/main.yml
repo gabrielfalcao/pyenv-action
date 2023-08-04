@@ -133,10 +133,13 @@ jobs:
       run: pyenv versions
 
     - name: verify default installation
-      run: python --version
+      run: test "$(python --version | awk '{ print $NF }')" = "3.7.16"
+
+    - name: verify 3.8.16 installation
+      run: pyenv local 3.8.16 && test "$(python --version | awk '{ print $NF }')" = "3.8.16"
 
     - name: verify pip version on python 3.7.16 installation
-      run: pyenv local 3.7.16 && pip --version
+      run: pyenv local 3.7.16 && test "$(pip --version | awk '{ print $2 }')" = "23.2.1"
 
     - name: verify pip version on python 3.8.16 installation
-      run: pyenv local 3.8.16 && pip --version
+      run: pyenv local 3.8.16 && test "$(pip --version | awk '{ print $2 }')" = "23.2.1"
