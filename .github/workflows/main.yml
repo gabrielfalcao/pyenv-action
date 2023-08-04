@@ -2,9 +2,12 @@ name: Continuous Integration
 on: [push, pull_request]
 
 jobs:
-  jest:
+  functional_tests:
+    strategy:
+      matrix:
+        os: [ubuntu, macos]
     name: functional tests
-    runs-on: ubuntu-latest
+    runs-on: ${{ os }}-latest
     steps:
     - name: checkout
       uses: actions/checkout@v3
@@ -20,9 +23,12 @@ jobs:
     - name: run jest tests
       run: npm test
 
-  integration_test_setup:
-    runs-on: ubuntu-latest
-    name: install pyenv and check versions
+  integration_tests_setup:
+    strategy:
+      matrix:
+        os: [ubuntu, macos]
+    runs-on: ${{ os }}-latest
+    name: "Integration Tests: Setup"
     steps:
     - name: checkout
       uses: actions/checkout@v3
@@ -40,8 +46,12 @@ jobs:
     - name: list files in pyenv_root
       run: ls -lhtr ${{ steps.pyenv.outputs.pyenv_root }}
 
-  integration_test_preinstall_default:
-    runs-on: ubuntu-latest
+  integration_tests_caches_default:
+    strategy:
+      matrix:
+        os: [ubuntu, macos]
+    runs-on: ${{ os }}-latest
+    name: "Integration Tests: Caches Default"
     name: pre-install default version
     steps:
     - name: checkout
@@ -65,9 +75,12 @@ jobs:
     - name: verify default installation
       run: python --version | grep 3.7.16
 
-  integration_test_preinstall_versions:
-    runs-on: ubuntu-latest
-    name: pre-install multiple versions of python
+  integration_tests_caches_versions:
+    strategy:
+      matrix:
+        os: [ubuntu, macos]
+    runs-on: ${{ os }}-latest
+    name: "Integration Tests: Caches Multiple Versions"
     steps:
     - name: checkout
       uses: actions/checkout@v3
@@ -96,9 +109,12 @@ jobs:
       run: pyenv local 3.7.16 && python --version | grep 3.7.16
 
 
-  integration_test_run_command_after_each_installation:
-    runs-on: ubuntu-latest
-    name: run command after installing each python version
+  integration_test_run_commands_after_each_version_installation:
+    strategy:
+      matrix:
+        os: [ubuntu, macos]
+    runs-on: ${{ os }}-latest
+    name: "Integration Tests: Run commands after each version installation"
     steps:
     - name: checkout
       uses: actions/checkout@v3
