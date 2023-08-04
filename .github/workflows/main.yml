@@ -7,7 +7,7 @@ jobs:
       matrix:
         os: [ubuntu, macos]
     name: functional tests
-    runs-on: ${{ os }}-latest
+    runs-on: ${{ matrix.os }}-latest
     steps:
     - name: checkout
       uses: actions/checkout@v3
@@ -27,7 +27,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu, macos]
-    runs-on: ${{ os }}-latest
+    runs-on: ${{ matrix.os }}-latest
     name: "Integration Tests: Setup"
     steps:
     - name: checkout
@@ -50,7 +50,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu, macos]
-    runs-on: ${{ os }}-latest
+    runs-on: ${{ matrix.os }}-latest
     name: "Integration Tests: Caches Default"
     name: pre-install default version
     steps:
@@ -79,7 +79,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu, macos]
-    runs-on: ${{ os }}-latest
+    runs-on: ${{ matrix.os }}-latest
     name: "Integration Tests: Caches Multiple Versions"
     steps:
     - name: checkout
@@ -113,7 +113,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu, macos]
-    runs-on: ${{ os }}-latest
+    runs-on: ${{ matrix.os }}-latest
     name: "Integration Tests: Run commands after each version installation"
     steps:
     - name: checkout
