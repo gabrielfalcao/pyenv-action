@@ -52,7 +52,6 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     name: "Integration Tests: Caches Default"
-    name: pre-install default version
     steps:
     - name: checkout
       uses: actions/checkout@v3
