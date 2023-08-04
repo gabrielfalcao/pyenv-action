@@ -95,8 +95,11 @@ jobs:
 
         versions: 3.8.16,
 
-    - name: list python versions
+    - name: display installed python versions
       run: pyenv versions
+
+    - name: display installable python versions
+      run: pyenv install --list
 
     - name: verify default installation
       run: python --version
