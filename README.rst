@@ -29,13 +29,11 @@ Features:
 Usage
 =====
 
-
 Example
 -------
 
 Installs python versions 3.8.16 and 3.9 with pyenv, upgrade pip for
 each of them and run pytest.
-
 
 
 .. code:: yaml
@@ -110,8 +108,9 @@ Inputs
 
 The default python version to install and set with ``pyenv local <version>``
 
-Must be a valid python version supported by ``pyenv install <version>``
+MUST be a valid python version supported by ``pyenv install <version>``
 
+**MUST** be defined
 
 Example:
 

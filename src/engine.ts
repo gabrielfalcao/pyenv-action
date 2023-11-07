@@ -23,6 +23,9 @@ export class ParsedInputs {
     this.default_version = core.getInput('default');
     this.command = core.getInput('command') || '';
     this.explicit_versions = utils.splitcommas(core.getInput('versions'));
+    if (this.default_version === undefined || `${this.default_version}`.trim().length === 0) {
+      core.error("the `default' input appears to be undefined or empty")
+    }
   }
   get versions() {
     const values = utils.unique(this.explicit_versions);

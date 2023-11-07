@@ -28,8 +28,14 @@ https: describe('PyEnvInstaller', () => {
     process.env['RUNNER_TOOL_CACHE'] = toolDir;
     process.env['RUNNER_TEMP'] = tempDir;
   }, 100000);
-  it('Can download and cache the archive', async () => {
+  it('Can download default version and cache the archive', async () => {
     const installer = new engine.PyEnvInstaller(defaults.PYENV_VERSION);
+    const archive_path = await installer.downloadArchive();
+    expect(fs.existsSync(archive_path)).toBeTruthy();
+  });
+
+  it('Can download specified version and cache the archive', async () => {
+    const installer = new engine.PyEnvInstaller("2.3.25");
     const archive_path = await installer.downloadArchive();
     expect(fs.existsSync(archive_path)).toBeTruthy();
   });
