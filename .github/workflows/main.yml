@@ -10,12 +10,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - name: checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
-    - name: set node.js 16.x
-      uses: actions/setup-node@v3
+    - name: set node.js 20.x
+      uses: actions/setup-node@v4
       with:
-        node-version: 16.x
+        node-version: 20
 
     - name: install dependencies
       run: npm ci
@@ -31,7 +31,7 @@ jobs:
     name: "Integration Tests: Setup"
     steps:
     - name: checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: setup pyenv
       id: pyenv
@@ -54,7 +54,7 @@ jobs:
     name: "Integration Tests: Caches Default"
     steps:
     - name: checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: pyenv + python 3.7.16
       id: pyenv
@@ -82,7 +82,7 @@ jobs:
     name: "Integration Tests: Caches Multiple Versions"
     steps:
     - name: checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: pyenv + python 3.8.16 and 3.7.16
       id: pyenv
@@ -119,7 +119,7 @@ jobs:
     name: "Integration Tests: Run commands after each version installation"
     steps:
     - name: checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: python 3.7.16 and 3.8.16 with latest pip
       id: pyenv
