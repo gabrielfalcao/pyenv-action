@@ -2,7 +2,7 @@ name: 'Pyenv Build'
 author: 'Gabriel Falcão'
 description: 'Enables use of pyenv within build'
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
 
 inputs:
