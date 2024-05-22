@@ -18,10 +18,10 @@ jobs:
         node-version: 16.x
 
     - name: install dependencies
-      run: npm ci
+      run: yarn
 
     - name: run jest tests
-      run: npm test
+      run: yarn test
 
   integration_tests_setup:
     strategy:
