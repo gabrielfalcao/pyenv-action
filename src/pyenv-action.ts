@@ -37,7 +37,7 @@ async function run() {
     // pre-install all pyenv versions
     await environment.install_versions();
     await environment.set_default_version();
-  } catch (error) {
+  } catch (error: any) {
     core.setFailed(error.message);
   }
 }
