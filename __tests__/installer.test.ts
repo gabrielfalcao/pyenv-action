@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import * as engine from '../src/engine';
-import * as defaults from '../src/defaults';
+import * as constants from '../src/constants';
 
 const tmpPath = path.join(__dirname, '.installer-tmp');
 
@@ -29,7 +29,7 @@ https: describe('PyEnvInstaller', () => {
         process.env['RUNNER_TEMP'] = tempDir;
     }, 100000);
     it('Can download and cache the archive', async () => {
-        const installer = new engine.PyEnvInstaller(defaults.PYENV_VERSION);
+        const installer = new engine.PyEnvInstaller(constants.PYENV_VERSION);
         const archive_path = await installer.downloadArchive();
         expect(fs.existsSync(archive_path)).toBeTruthy();
     });
@@ -49,7 +49,7 @@ https: describe('PyEnvInstaller', () => {
     });
 
     it('Can install pyenv', async () => {
-        const installer = new engine.PyEnvInstaller(defaults.PYENV_VERSION);
+        const installer = new engine.PyEnvInstaller(constants.PYENV_VERSION);
         const archive_path = await installer.downloadArchive();
         const pyenv_root = await installer.installFromArchive(archive_path);
         expect(fs.existsSync(pyenv_root)).toBeTruthy();

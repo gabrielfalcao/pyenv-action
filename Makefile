@@ -13,16 +13,18 @@ default: $(NODE_ROOT) release
 
 ifeq ($(shell node -v),$(NODE_VERSION))
 $(NODE_ROOT) $(NODE_BIN):
-	npm install
+	npm install -g yarn@latest
+	yarn
 else
 $(NODE_ROOT) $(NODE_BIN):
 	@echo "\033[1;33mWARNING: This project is tested with node $(NODE_VERSION).\033[0m"
 	@echo "\033[1;33mWARNING: Your node version is $(shell node -v) instead.\033[0m"
-	npm install
+	npm install -g yarn@latest
+	yarn
 endif
 
 install $(typescript) $(eslint) $(prettier) $(ncc) $(jest): | $(NODE_BIN)
-	npm install
+	yarn add $(shell echo $@ | sed 's,$(NODE_ROOT)/,,g')@latest
 
 watch: format | $(typescript)
 	npm run watch
@@ -51,6 +53,7 @@ test-watch: | $(jest)
 	npm run test-watch
 
 clean:
+	git clean -Xdf __tests__
 	rm -f dist/index.js
 
 node-check: $(NODE_BIN) $(NODE_ROOT)
