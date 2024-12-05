@@ -52,7 +52,7 @@ each of them and run pytest.
              - 3.9
 
        steps:
-       - uses: actions/checkout@v3
+       - uses: actions/checkout@v4
        - name: Install python version
          uses: gabrielfalcao/pyenv-action@v18
          with:
