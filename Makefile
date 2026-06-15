@@ -35,6 +35,8 @@ dist/index.js: | $(NODE_BIN) lib/pyenv-action.js
 lib/pyenv-action.js: | $(typescript)
 	npm run build
 
+dist: clean dist/index.js
+
 release: clean test dist/index.js
 
 build: format | $(NODE_BIN)
@@ -53,7 +55,6 @@ test-watch: | $(jest)
 	npm run test-watch
 
 clean:
-	git clean -Xdf __tests__
 	rm -f dist/index.js
 
 node-check: $(NODE_BIN) $(NODE_ROOT)
@@ -64,6 +65,7 @@ node-check: $(NODE_BIN) $(NODE_ROOT)
 .PHONY: \
     build \
     clean \
+    dist \
     default \
     format \
     install \
